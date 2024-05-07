@@ -120,10 +120,5 @@
     <property name="event" value="accomodation"/>
    </properties>
   </object>
-  <object id="35" x="1257.94" y="400.173" width="69.9854" height="44.8624">
-   <properties>
-    <property name="event" value="piazza"/>
-   </properties>
-  </object>
  </objectgroup>
 </map>
