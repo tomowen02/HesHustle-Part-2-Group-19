@@ -102,7 +102,8 @@
   <object id="15" x="576" y="192" width="288" height="240"/>
   <object id="16" x="672" y="696" width="240" height="72">
    <properties>
-    <property name="event" value="teleport-MapAssetsV2/Maps/CampusEast.tmx-5376,1152"/>
+    <property name="event" value="teleport"/>
+    <property name="params" value="MapAssetsV2/Maps/CampusEast.tmx;5376,1152"/>
    </properties>
   </object>
   <object id="17" x="1200" y="1008"/>

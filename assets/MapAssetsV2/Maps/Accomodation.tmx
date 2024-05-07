@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="20" tilewidth="48" tileheight="48" infinite="0" nextlayerid="7" nextobjectid="35">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="20" tilewidth="48" tileheight="48" infinite="0" nextlayerid="7" nextobjectid="36">
  <properties>
   <property name="backgroundLayers" value="0,1,2"/>
   <property name="collisionLayer" type="int" value="3"/>
@@ -106,7 +106,8 @@
  <objectgroup id="5" name="Interact">
   <object id="22" x="288" y="706.095" width="192" height="31.3981">
    <properties>
-    <property name="event" value="teleport-MapAssetsV2/Maps/CampusEast.tmx-5050,3700"/>
+    <property name="event" value="teleport"/>
+    <property name="params" value="MapAssetsV2/Maps/CampusEast.tmx;5050,3650"/>
    </properties>
   </object>
   <object id="32" x="620.896" y="419.912" width="23.3285" height="21.534">
@@ -117,6 +118,11 @@
   <object id="34" x="254.819" y="353.516" width="114.848" height="48.4514">
    <properties>
     <property name="event" value="accomodation"/>
+   </properties>
+  </object>
+  <object id="35" x="1257.94" y="400.173" width="69.9854" height="44.8624">
+   <properties>
+    <property name="event" value="piazza"/>
    </properties>
   </object>
  </objectgroup>
