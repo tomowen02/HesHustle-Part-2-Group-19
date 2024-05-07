@@ -34,6 +34,7 @@ public class EventManager {
         activityEnergies.put("studying", 10);
         activityEnergies.put("meet_friends", 10);
         activityEnergies.put("eating", 10);
+        activityEnergies.put("ducks", 10);
 
 
         // Define what to say when interacting with an object who's text won't change
@@ -45,6 +46,7 @@ public class EventManager {
         objectInteractions.put("rch", null); // Changes, dynamically returned in getObjectInteraction
         objectInteractions.put("tree", "Speak to the tree?");
         objectInteractions.put("teleport", "Would you like to move location?");
+        objectInteractions.put("ducks", "Would you like to feed the ducks?");
 
         // Some random topics that can be chatted about
         String[] topics = {"Dogs", "Cats", "Exams", "Celebrities", "Flatmates", "Video games", "Sports", "Food", "Fashion"};
@@ -91,6 +93,9 @@ public class EventManager {
                 break;
             case "teleport":
                 teleportEvent(args);
+                break;
+            case "ducks":
+                ducksEvent(args);
                 break;
             case "exit":
                 // Should do nothing and just close the dialogue menu
@@ -323,6 +328,22 @@ public class EventManager {
             gameScreen.dialogueBox.setText("Teleport failed!");
         }
 
+    }
+
+    public void ducksEvent(String[] args) {
+        if (gameScreen.getSeconds() > 8*60) {
+            int energyCost = activityEnergies.get("ducks");
+            if (gameScreen.getEnergy() < energyCost) {
+                gameScreen.dialogueBox.setText("You are too tired to feed the ducks right now!");
+            } else {
+                gameScreen.dialogueBox.setText("You fed the ducks for an hour!\nYou lost "+energyCost+" energy!");
+                gameScreen.decreaseEnergy(energyCost);
+                gameScreen.passTime(60);
+                gameScreen.addRecreationalHours(1);
+            }
+        } else {
+            gameScreen.dialogueBox.setText("It's too early in the morning to feed the ducks, the ducks are asleep!");
+        }
     }
 
     /**
