@@ -71,6 +71,22 @@ public class GameObject extends Rectangle {
         return properties.get(key);
     }
 
+    public String getEvent() {
+        if (containsKey("event")) {
+            return (String) properties.get("event");
+        } else {
+            return "";
+        }
+    }
+
+    public String getParams() {
+        if (containsKey("params")) {
+            return (String) properties.get("params");
+        } else {
+            return "";
+        }
+    }
+
     /**
      * @param key A key to be checked in the object's properties
      * @return True if the object has a property with this key

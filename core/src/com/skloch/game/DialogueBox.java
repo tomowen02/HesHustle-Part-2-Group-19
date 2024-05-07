@@ -5,8 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Array;
-
 import java.util.Objects;
+import java.util.HashMap;
 
 /**
  * A class to display a dialogue box for text and options on the screen.
@@ -22,6 +22,7 @@ public class DialogueBox {
     private Array<String> textLines;
     private int linePointer = 0;
     private String eventKey = null;
+    private String eventParams = null;
     private float textCounter = 0;
     private boolean scrollingText = false;
 
@@ -52,7 +53,7 @@ public class DialogueBox {
 
         // Create selection box to allow user to make choices when interacting with objects (class defined below)
         this.selectBox = new SelectBox();
-        selectBox.setOptions(new String[]{"Yes", "No"}, new String[]{"piazza", "close"});
+        selectBox.setOptions(new String[]{"Yes", "No"}, new String[]{"piazza", "close"}); //!TEMP
 
         setText("Are you sure you want to sleep at the Piazza? This will cost you 10 energy");
 
@@ -67,6 +68,7 @@ public class DialogueBox {
         private int choiceIndex = 0;
         private String[] options;
         private String[] events;
+        private String[] eventParams;
         private Array<Label> optionPointers = new Array<Label>();
         public SelectBox () {
             selectWindow = new Window("", skin);
@@ -93,11 +95,12 @@ public class DialogueBox {
          * @param options The options available to the player e.g. "Yes" and "No"
          * @param events The events called to the option of the same index E.g. "piazza" and "closeDialogue"
          */
-        public void setOptions (String[] options, String[] events) {
+        public void setOptions (String[] options, String[] events, String[] eventParams) {
             selectTable.clearChildren();
 
             this.options = options;
             this.events = events;
+            this.eventParams = eventParams;
             optionPointers.clear();
 
             for (String option : options) {
@@ -126,8 +129,14 @@ public class DialogueBox {
             // Show first pointer
             setChoice(0);
             show();
+        }
 
-
+        public void setOptions(String[] options, String[] events) {
+            String[] params = new String[events.length];
+            for (int i = 0; i < events.length; i++) {
+                params[i] = "";
+            }
+            setOptions(options, events, params);
         }
 
         /**
@@ -167,6 +176,10 @@ public class DialogueBox {
 
         public String getChoice () {
             return events[choiceIndex];
+        }
+
+        public String getParams() {
+            return eventParams[choiceIndex];
         }
 
         /**
@@ -242,15 +255,25 @@ public class DialogueBox {
         textCounter = 0;
     }
 
+    public void setText(String text, String eventKey) {
+        initialiseLabelText(text);
+        this.eventKey = eventKey;
+        this.eventParams = "";
+        scrollingText = true;
+        textCounter = 0;
+
+    }
+
     /**
      * Sets the text to be displayed on the dialogue box, automatically wraps it correctly
      * Additionally, schedules an event to be called after the text is done displaying
      * @param text THe text to display
      * @param eventKey The event key to be triggered
      */
-    public void setText(String text, String eventKey) {
+    public void setText(String text, String eventKey, String eventParams) {
         initialiseLabelText(text);
         this.eventKey = eventKey;
+        this.eventParams = eventParams;
         scrollingText = true;
         textCounter = 0;
 
@@ -365,7 +388,7 @@ public class DialogueBox {
     public void enter(EventManager eventManager) {
         if (selectBox.isVisible()) {
             selectBox.hide();
-            eventManager.event(selectBox.getChoice());
+            eventManager.event(selectBox.getChoice(), selectBox.getParams());
         } else {
             advanceText(eventManager);
         }
@@ -387,7 +410,7 @@ public class DialogueBox {
                 scrollingText = false;
                 textCounter = 0;
                 if (eventKey != null) {
-                    eventManager.event(eventKey);
+                    eventManager.event(eventKey, eventParams);
                     eventKey = null;
                 }
             } else {
