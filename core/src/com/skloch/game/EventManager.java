@@ -73,7 +73,7 @@ public class EventManager {
         switch (eventKey) {
             case "tree":
                 treeEvent();
-                if (objectInteractions.containsKey(args[0])) {
+                if (args.length >= 1 && objectInteractions.containsKey(args[0])) {
                     objectInteractions.get(args[0]).perform();
                 }
                 break;
