@@ -56,7 +56,7 @@ public class DialogueBox {
     }
 
     /**
-     * A class displaying a little selction box to the user when an input is needed in dialog
+     * A class displaying a little selection box to the user when an input is needed in dialog
      */
     public class SelectBox {
         private final Window selectWindow;
@@ -65,7 +65,7 @@ public class DialogueBox {
         private String[] options;
         private String[] events;
         private String[] eventParams;
-        private final Array<Label> optionPointers = new Array<Label>();
+        private final Array<Label> optionPointers = new Array<>();
         public SelectBox () {
             selectWindow = new Window("", skin);
             selectTable = new Table();
@@ -243,7 +243,7 @@ public class DialogueBox {
 
     /**
      * Sets the text to be displayed on the dialogue box, automatically wraps it correctly
-     * @param text
+     * @param text Text to be displayed.
      */
     public void setText(String text) {
         initialiseLabelText(text);
@@ -263,7 +263,7 @@ public class DialogueBox {
     /**
      * Sets the text to be displayed on the dialogue box, automatically wraps it correctly
      * Additionally, schedules an event to be called after the text is done displaying
-     * @param text THe text to display
+     * @param text The text to display
      * @param eventKey The event key to be triggered
      */
     public void setText(String text, String eventKey, String eventParams) {
@@ -288,7 +288,7 @@ public class DialogueBox {
 
     /**
      * Formats the text to be displayed on a label widget. Adds a newline character every MAXCHARS num of characters
-     * accounts for any occuring linebreaks to take use of the size of the most space possible.
+     * accounts for any occurring linebreaks to take use of the size of the most space possible.
      * Stores the formatted text in 3 chunks, which are then queued up to be pushed to the label whenever the user
      * presses e.
      *
@@ -303,7 +303,7 @@ public class DialogueBox {
 
         // Add newline characters where the length of a section between two linebreaks is greater than MAXCHARS
         for (char c : text.toCharArray()) {
-            // Account for any occuring linebreaks
+            // Account for any occurring linebreaks
             if (c == '\n') {
                 index = 0;
             }
@@ -339,7 +339,7 @@ public class DialogueBox {
         }
 
         // Split the newString into chunks with 3 linebreaks
-        textLines = new Array<String>();
+        textLines = new Array<>();
         int numBreaks = 0;
         String subString = "";
 

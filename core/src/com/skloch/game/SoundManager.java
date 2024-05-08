@@ -139,7 +139,7 @@ public class SoundManager implements Disposable {
         // If it is time to play a footstep, play one
         if (footstepTimer <= 0) {
             footstepTimer = 0.5f; // Delay between each footstep sound, increase to have slower steps
-            if (footstepBool == false) {
+            if (!footstepBool) {
                 footstep1.play(sfxVolume);
                 footstepBool = true;
             } else {

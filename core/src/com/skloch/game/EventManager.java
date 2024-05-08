@@ -214,7 +214,7 @@ public class EventManager {
      */
     private String[] randomTopics(int amount) {
         // Returns an array of 3 random topics
-        Array<String> topics = new Array<String>(amount);
+        Array<String> topics = new Array<>(amount);
 
         for (int i = 0;i<amount;i++) {
             String choice = talkTopics.random();
@@ -338,11 +338,10 @@ public class EventManager {
     public void teleportEvent(String[] args) {
         try {
 //            gameScreen.dialogueBox.hide();
+            String mapPath = args[0];
             if (args.length == 1) {
-                String mapPath = args[0];
                 gameScreen.mapManager.loadMap(mapPath);
             } else {
-                String mapPath = args[0];
                 String spawn = args[1]; // in the form "x,y"
                 String[] spawnCoords = spawn.split(",");
                 float x = Float.parseFloat(spawnCoords[0]);

@@ -34,7 +34,7 @@ public class GameScreen implements Screen {
     private int hoursStudied;
     private int hoursRecreational;
     private int hoursSlept;
-    private float daySeconds = 0; // Current seconds elapsed in day
+    private float daySeconds; // Current seconds elapsed in day
     private int day = 1; // What day the game is on
     private final Label timeLabel;
     private final Label dayLabel;
@@ -250,11 +250,7 @@ public class GameScreen implements Screen {
         timeLabel.setText(formatTime((int) daySeconds));
 
         // Freeze the player's movement for this frame if any menus are visible
-        if (escapeMenu.isVisible() || dialogueBox.isVisible() || sleeping) {
-            player.setFrozen(true);
-        } else {
-            player.setFrozen(false);
-        }
+        player.setFrozen(escapeMenu.isVisible() || dialogueBox.isVisible() || sleeping);
 
         dialogueBox.scrollText(0.8f);
 
@@ -363,8 +359,8 @@ public class GameScreen implements Screen {
         // escapeMenu.setDebug(true);
 
         // Centre
-        escapeMenu.setX((game.WIDTH / 2) - (escapeMenu.getWidth() / 2));
-        escapeMenu.setY((game.HEIGHT / 2) - (escapeMenu.getHeight() / 2));
+        escapeMenu.setX((game.WIDTH / 2f) - (escapeMenu.getWidth() / 2));
+        escapeMenu.setY((game.HEIGHT / 2f) - (escapeMenu.getHeight() / 2));
 
 
         // Create button listeners
@@ -557,11 +553,11 @@ public class GameScreen implements Screen {
                                 // Show a dialogue menu asking if they want to do an interaction with the object
                                 dialogueBox.show();
                                 String[] options = new String[]{"Yes", "No"};
-                                String[] events = new String[]{(String) closetObject.getEvent(), "exit"};
-                                String[] params = new String[]{(String) closetObject.getParams(), ""};
+                                String[] events = new String[]{closetObject.getEvent(), "exit"};
+                                String[] params = new String[]{closetObject.getParams(), ""};
                                 dialogueBox.getSelectBox().setOptions(options, events, params);
-                                if (eventManager.hasCustomObjectInteraction((String) closetObject.getEvent())) {
-                                    dialogueBox.setText(eventManager.getObjectInteraction((String) closetObject.getEvent()));
+                                if (eventManager.hasCustomObjectInteraction(closetObject.getEvent())) {
+                                    dialogueBox.setText(eventManager.getObjectInteraction(closetObject.getEvent()));
                                 } else {
                                     dialogueBox.setText("Interact with " + closetObject.getEvent() + "?");
                                 }
@@ -722,6 +718,6 @@ public class GameScreen implements Screen {
 
     private Vector2 getViewportSize() {
         float viewportScalar = mapManager.getViewportScalar();
-        return new Vector2((game.WIDTH/2)*viewportScalar, (game.HEIGHT/2)*viewportScalar);
+        return new Vector2((game.WIDTH/2f)*viewportScalar, (game.HEIGHT/2f)*viewportScalar);
     }
 }

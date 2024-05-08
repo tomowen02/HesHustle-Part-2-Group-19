@@ -16,7 +16,7 @@ import com.skloch.game.HustleGame;
 
 /**
  * A screen to display the game menu to the player has the buttons "Start", "Settings", "Credits, "Exit"
- * Also diaplays a tutorial window and an avatar select screen
+ * Also displays a tutorial window and an avatar select screen
  */
 public class MenuScreen implements Screen {
     private final HustleGame game;
