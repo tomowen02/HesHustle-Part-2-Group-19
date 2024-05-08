@@ -36,17 +36,24 @@ public class EventManager {
         objectInteractions.put("accomodation", new Event("accomodation", "Go to sleep for the night?\nYour alarm is set for 8am.", 0));
         objectInteractions.put("rch", new Event("rch", "", 10)); // Changes, dynamically returned in getObjectInteraction
         objectInteractions.put("tree", new Event("tree", "Speak to the tree?", 0));
+        objectInteractions.put("teleport", new Event("teleport", "Would you like to move location?", 0));
+        objectInteractions.put("ducks", new Event("ducks", "Would you like to feed the ducks?", 10));
 
         // Some random topics that can be chatted about
         String[] topics = {"Dogs", "Cats", "Exams", "Celebrities", "Flatmates", "Video games", "Sports", "Food", "Fashion"};
         talkTopics = new Array<String>(topics);
     }
 
-    public void event (String eventKey) {
-        String[] args = eventKey.split("-");
-        System.out.println(eventKey);
+    public void event (String eventKey, String params) {
+        String[] args;
+        if (!params.isEmpty()) {
+            args = params.split(";");
+        } else {
+            args = new String[0];
+        }
+
         // Important functions, most likely called after displaying text
-        switch (args[0]) {
+        switch (eventKey) {
             case "fadefromblack":
                 fadeFromBlack();
                 break;
@@ -59,7 +66,7 @@ public class EventManager {
         }
 
         // Events related to objects
-        switch (args[0]) {
+        switch (eventKey) {
             case "tree":
                 treeEvent();
                 if (objectInteractions.containsKey(args[0])) {
@@ -87,6 +94,9 @@ public class EventManager {
             case "teleport":
                 teleportEvent(args);
                 break;
+            case "ducks":
+                ducksEvent(args);
+                break;
             case "exit":
                 // Should do nothing and just close the dialogue menu
                 gameScreen.dialogueBox.hide();
@@ -110,6 +120,9 @@ public class EventManager {
      * @return The object interaction text
      */
     public String getObjectInteraction(String key) {
+        if (key.contains("teleport")) {
+            key = "teleport";
+        }
         if (key.equals("rch")) {
             return String.format("Eat %s at the Ron Cooke Hub?", gameScreen.getMeal());
         } else {
@@ -160,16 +173,17 @@ public class EventManager {
             if (gameScreen.getEnergy() < energyCost) {
                 gameScreen.dialogueBox.setText("You are too tired to meet your friends right now!");
 
-            } else if (args.length == 1) {
+            } else if (args.length == 0) {
                 // Ask the player to chat about something (makes no difference)
                 String[] topics = randomTopics(3);
                 gameScreen.dialogueBox.setText("What do you want to chat about?");
-                gameScreen.dialogueBox.getSelectBox().setOptions(topics, new String[]{"piazza-"+topics[0], "piazza-"+topics[1], "piazza-"+topics[2]});
+                String[] events = new String[] {"piazza", "piazza", "piazza"};
+                gameScreen.dialogueBox.getSelectBox().setOptions(topics, events, topics);
             } else {
                 // Say that the player chatted about this topic for 1-3 hours
                 // RNG factor adds a slight difficulty (may consume too much energy to study)
                 int hours = ThreadLocalRandom.current().nextInt(1, 4);
-                gameScreen.dialogueBox.setText(String.format("You talked about %s for %d hours!", args[1].toLowerCase(), hours));
+                gameScreen.dialogueBox.setText(String.format("You talked about %s for %d hours!", args[0].toLowerCase(), hours));
                 gameScreen.decreaseEnergy(energyCost * hours);
                 gameScreen.passTime(hours * 60); // in seconds
                 gameScreen.addRecreationalHours(hours);
@@ -215,18 +229,21 @@ public class EventManager {
             if (gameScreen.getEnergy() < energyCost) {
                 gameScreen.dialogueBox.hideSelectBox();
                 gameScreen.dialogueBox.setText("You are too tired to study right now!");
-            } else if (args.length == 1) {
+            } else if (args.length == 0) {
                 // If the player has not yet chosen how many hours, ask
                 gameScreen.dialogueBox.setText("Study for how long?");
-                gameScreen.dialogueBox.getSelectBox().setOptions(new String[]{"2 Hours (20)", "3 Hours (30)", "4 Hours (40)"}, new String[]{"comp_sci-2", "comp_sci-3", "comp_sci-4"});
+                String[] options = new String[] {"2 Hours (20)", "3 Hours (30)", "4 Hours (40)"};
+                String[] events = new String[] {"comp_sci", "comp_sci", "comp_sci"};
+                String[] params = new String[] {"2", "3", "4"};
+                gameScreen.dialogueBox.getSelectBox().setOptions(options, events, params);
             } else {
-                int hours = Integer.parseInt(args[1]);
+                int hours = Integer.parseInt(args[0]);
                 // If the player does not have enough energy for the selected hours
                 if (gameScreen.getEnergy() < hours*energyCost) {
                     gameScreen.dialogueBox.setText("You don't have the energy to study for this long!");
                 } else {
                     // If they do have the energy to study
-                    gameScreen.dialogueBox.setText(String.format("You studied for %s hours!\nYou lost %d energy", args[1], hours*energyCost));
+                    gameScreen.dialogueBox.setText(String.format("You studied for %s hours!\nYou lost %d energy", args[0], hours*energyCost));
                     gameScreen.decreaseEnergy(energyCost * hours);
                     gameScreen.addStudyHours(hours);
                     gameScreen.passTime(hours * 60); // in seconds
@@ -304,12 +321,13 @@ public class EventManager {
 
     public void teleportEvent(String[] args) {
         try {
-            if (args.length == 2) {
-                String mapPath = args[1];
+//            gameScreen.dialogueBox.hide();
+            if (args.length == 1) {
+                String mapPath = args[0];
                 gameScreen.mapManager.loadMap(mapPath);
             } else {
-                String mapPath = args[1];
-                String spawn = args[2]; // in the form "x,y"
+                String mapPath = args[0];
+                String spawn = args[1]; // in the form "x,y"
                 String[] spawnCoords = spawn.split(",");
                 float x = Float.parseFloat(spawnCoords[0]);
                 float y = Float.parseFloat(spawnCoords[1]);
@@ -321,6 +339,22 @@ public class EventManager {
             gameScreen.dialogueBox.setText("Teleport failed!");
         }
 
+    }
+
+    public void ducksEvent(String[] args) {
+        if (gameScreen.getSeconds() > 8*60) {
+            int energyCost = objectInteractions.get("ducks").getEnergyCost();
+            if (gameScreen.getEnergy() < energyCost) {
+                gameScreen.dialogueBox.setText("You are too tired to feed the ducks right now!");
+            } else {
+                gameScreen.dialogueBox.setText("You fed the ducks for an hour!\nYou lost "+energyCost+" energy!");
+                gameScreen.decreaseEnergy(energyCost);
+                gameScreen.passTime(60);
+                gameScreen.addRecreationalHours(1);
+            }
+        } else {
+            gameScreen.dialogueBox.setText("It's too early in the morning to feed the ducks, the ducks are asleep!");
+        }
     }
 
     /**

@@ -33,7 +33,7 @@ public class GameScreen implements Screen {
     private int energy = 100;
     private int hoursStudied, hoursRecreational, hoursSlept;
     private float daySeconds = 0; // Current seconds elapsed in day
-    private int day = 0; // What day the game is on
+    private int day = 1; // What day the game is on
     private Label timeLabel, dayLabel;
     public Player player;
     private Window escapeMenu;
@@ -551,24 +551,27 @@ public class GameScreen implements Screen {
 
                         } else if (player.nearObject() && !sleeping) {
                             // If the object has an event associated with it
-                            Object event = player.getClosestObject().get("event");
-                            if (event != null) {
+                            GameObject closetObject = player.getClosestObject();
+                            if (closetObject.get("event") != null) {
                                 // Show a dialogue menu asking if they want to do an interaction with the object
                                 dialogueBox.show();
-                                dialogueBox.getSelectBox().setOptions(new String[]{"Yes", "No"}, new String[]{(String) event, "exit"});
-                                if (eventManager.hasCustomObjectInteraction((String) event)) {
-                                    dialogueBox.setText(eventManager.getObjectInteraction((String) event));
+                                String[] options = new String[]{"Yes", "No"};
+                                String[] events = new String[]{(String) closetObject.getEvent(), "exit"};
+                                String[] params = new String[]{(String) closetObject.getParams(), ""};
+                                dialogueBox.getSelectBox().setOptions(options, events, params);
+                                if (eventManager.hasCustomObjectInteraction((String) closetObject.getEvent())) {
+                                    dialogueBox.setText(eventManager.getObjectInteraction((String) closetObject.getEvent()));
                                 } else {
-                                    dialogueBox.setText("Interact with " + event + "?");
+                                    dialogueBox.setText("Interact with " + closetObject.getEvent() + "?");
                                 }
                                 dialogueBox.show();
                                 dialogueBox.getSelectBox().show();
                                 game.soundManager.playDialogueOpen();
 
-                            } else if (player.getClosestObject().get("text") != null) {
+                            } else if (closetObject.get("text") != null) {
                                 // Otherwise, if it is a text object, just display its text
                                 dialogueBox.show();
-                                dialogueBox.setText((String) player.getClosestObject().get("text"));
+                                dialogueBox.setText((String) closetObject.get("text"));
                             }
                         }
                         return true;
