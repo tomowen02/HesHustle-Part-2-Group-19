@@ -5,6 +5,7 @@ public class Event {
     private final String text;
     private final int energyCost;
     private int streak;
+    private int maxStreak;
     private int timesPerformedToday;
     private int timesPerformedTotal;
 
@@ -40,7 +41,14 @@ public class Event {
     }
 
     public void resetStreak() {
+        if (streak > maxStreak) {
+            maxStreak = streak;
+        }
         streak = 0;
+    }
+
+    public int getMaxStreak() {
+        return maxStreak;
     }
 
     public int getTimesPerformedTotal() {
