@@ -19,10 +19,10 @@ import com.skloch.game.HustleGame;
  * A screen to display settings to the player, lets the player adjust sound and music volume
  */
 public class SettingsScreen implements Screen {
-    private HustleGame game;
-    private Stage optionStage;
-    private OrthographicCamera camera;
-    private Viewport viewport;
+    private final HustleGame game;
+    private final Stage optionStage;
+    private final OrthographicCamera camera;
+    private final Viewport viewport;
     private Window optionMenu;
     public Slider musicSlider;
     public Slider sfxSlider;

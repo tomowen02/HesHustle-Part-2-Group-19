@@ -29,22 +29,24 @@ import com.skloch.game.*;
  */
 public class GameScreen implements Screen {
     final HustleGame game;
-    private OrthographicCamera camera;
+    private final OrthographicCamera camera;
     private int energy = 100;
-    private int hoursStudied, hoursRecreational, hoursSlept;
+    private int hoursStudied;
+    private int hoursRecreational;
+    private int hoursSlept;
     private float daySeconds = 0; // Current seconds elapsed in day
     private int day = 1; // What day the game is on
-    private Label timeLabel, dayLabel;
+    private final Label timeLabel;
+    private final Label dayLabel;
     public Player player;
     private Window escapeMenu;
-    private Viewport viewport;
+    private final Viewport viewport;
     public Stage uiStage;
-    private Label interactionLabel;
-    private EventManager eventManager;
-//    private OptionDialogue optionDialogue;
+    private final Label interactionLabel;
+    private final EventManager eventManager;
     protected InputMultiplexer inputMultiplexer;
     private Table uiTable;
-    private Image energyBar;
+    private final Image energyBar;
     public DialogueBox dialogueBox;
     public final Image blackScreen;
     private boolean sleeping = false;

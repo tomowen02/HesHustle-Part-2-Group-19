@@ -18,19 +18,25 @@ import java.util.List;
  */
 public class Player {
     // Hitboxes
-    public Rectangle sprite, feet, eventHitbox;
-    public float centreX, centreY;
+    public Rectangle sprite;
+    public Rectangle feet;
+    public Rectangle eventHitbox;
+    public float centreX;
+    public float centreY;
     public int direction = 2; // 0 = up, 1 = right, 2 = down, 3 = left (like a clock)
     private TextureRegion currentFrame;
     private float stateTime = 0;
-    private final Array<Animation<TextureRegion>> walkingAnimation, idleAnimation;
+    private final Array<Animation<TextureRegion>> walkingAnimation;
+    private final Array<Animation<TextureRegion>> idleAnimation;
     // Stats
     public float speed = 500f;
-    public List<GameObject> collidables, interactables;
+    public List<GameObject> collidables;
+    public List<GameObject> interactables;
     public int scale = 4;
     private Rectangle bounds;
     private GameObject closestObject;
-    public boolean frozen, moving;
+    public boolean frozen;
+    public boolean moving;
 
     /**
      * A player character, contains methods to move the player and update animations, also includes collision handling

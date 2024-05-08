@@ -20,7 +20,7 @@ import com.skloch.game.HustleGame;
  * Currently doesn't calculate a score
  */
 public class GameOverScreen implements Screen {
-    private HustleGame game;
+    private final HustleGame game;
     Stage gameOverStage;
     Viewport viewport;
     OrthographicCamera camera;

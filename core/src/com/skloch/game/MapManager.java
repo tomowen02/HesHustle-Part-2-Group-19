@@ -20,10 +20,12 @@ public class MapManager {
     private TiledMap currentMap;
     private MapProperties mapProperties;
     private OrthogonalTiledMapRenderer mapRenderer;
-    public int[] backgroundLayers, foregroundLayers;
-    public int collisionLayer, interactLayer;
+    public int[] backgroundLayers;
+    public int[] foregroundLayers;
+    public int collisionLayer;
+    public int interactLayer;
     private Float viewportScalar;
-    private GameScreen game;
+    private final GameScreen game;
 
 
     public MapManager(GameScreen game) {

@@ -21,10 +21,10 @@ import com.skloch.game.HustleGame;
  */
 public class CreditScreen implements Screen{
 
-    private HustleGame game;
-    private Stage creditStage;
-    private OrthographicCamera camera;
-    private Viewport viewport;
+    private final HustleGame game;
+    private final Stage creditStage;
+    private final OrthographicCamera camera;
+    private final Viewport viewport;
 
     /**
      * A scene2d window consisting of a title, a scrollable widget and an exit button.

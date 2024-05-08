@@ -24,11 +24,11 @@ import screens.SettingsScreen;
  */
 public class MenuScreen implements Screen {
     final HustleGame game;
-    private Stage menuStage;
+    private final Stage menuStage;
     OrthographicCamera camera;
-    private Viewport viewport;
-    private Image titleImage;
-    private LeaderboardWindow leaderboardWindow;
+    private final Viewport viewport;
+    private final Image titleImage;
+    private final LeaderboardWindow leaderboardWindow;
 
     /**
      * A class to display a menu screen, initially gives the player 4 options, Start, Settings, Credits, Quit

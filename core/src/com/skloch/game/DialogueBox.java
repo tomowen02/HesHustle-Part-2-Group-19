@@ -13,12 +13,12 @@ import java.util.HashMap;
  *
  */
 public class DialogueBox {
-    private Window dialogueWindow;
+    private final Window dialogueWindow;
     private Table dialogueTable;
-    private Label textLabel;
-    private Skin skin;
+    private final Label textLabel;
+    private final Skin skin;
     private final int MAXCHARS;
-    private SelectBox selectBox;
+    private final SelectBox selectBox;
     private Array<String> textLines;
     private int linePointer = 0;
     private String eventKey = null;
