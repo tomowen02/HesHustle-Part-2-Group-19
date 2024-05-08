@@ -23,9 +23,9 @@ import screens.SettingsScreen;
  * Also diaplays a tutorial window and an avatar select screen
  */
 public class MenuScreen implements Screen {
-    final HustleGame game;
+    private final HustleGame game;
     private final Stage menuStage;
-    OrthographicCamera camera;
+    private final OrthographicCamera camera;
     private final Viewport viewport;
     private final Image titleImage;
     private final LeaderboardWindow leaderboardWindow;

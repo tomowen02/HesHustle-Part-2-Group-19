@@ -14,7 +14,6 @@ import java.util.HashMap;
  */
 public class DialogueBox {
     private final Window dialogueWindow;
-    private Table dialogueTable;
     private final Label textLabel;
     private final Skin skin;
     private final int MAXCHARS;
@@ -39,7 +38,7 @@ public class DialogueBox {
         dialogueWindow = new Window("", skin);
 
         // Create the table for the text in the dialogue box
-        dialogueTable = new Table();
+        Table dialogueTable = new Table();
         dialogueWindow.addActor(dialogueTable);
         dialogueTable.setFillParent(true);
 

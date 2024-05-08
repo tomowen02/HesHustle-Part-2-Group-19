@@ -21,10 +21,10 @@ import com.skloch.game.HustleGame;
  */
 public class GameOverScreen implements Screen {
     private final HustleGame game;
-    Stage gameOverStage;
-    Viewport viewport;
-    OrthographicCamera camera;
-    LeaderboardWindow leaderboard;
+    private final Stage gameOverStage;
+    private final Viewport viewport;
+    private final OrthographicCamera camera;
+    private final LeaderboardWindow leaderboard;
 
     /**
      * A screen to display a 'Game Over' screen when the player finishes their exams

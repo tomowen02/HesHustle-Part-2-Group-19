@@ -23,7 +23,6 @@ public class SettingsScreen implements Screen {
     private final Stage optionStage;
     private final OrthographicCamera camera;
     private final Viewport viewport;
-    private Window optionMenu;
     public Slider musicSlider;
     public Slider sfxSlider;
     public Screen previousScreen;
@@ -46,7 +45,7 @@ public class SettingsScreen implements Screen {
         camera.setToOrtho(false, game.WIDTH, game.HEIGHT);
 
         // Create the window
-        optionMenu = new Window("", game.skin);
+        Window optionMenu = new Window("", game.skin);
         optionStage.addActor(optionMenu);
         optionMenu.setModal(true);
 

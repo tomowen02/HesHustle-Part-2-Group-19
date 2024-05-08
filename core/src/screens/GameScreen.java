@@ -45,7 +45,6 @@ public class GameScreen implements Screen {
     private final Label interactionLabel;
     private final EventManager eventManager;
     protected InputMultiplexer inputMultiplexer;
-    private Table uiTable;
     private final Image energyBar;
     public DialogueBox dialogueBox;
     public final Image blackScreen;
@@ -85,7 +84,7 @@ public class GameScreen implements Screen {
         blackScreen.addAction(Actions.alpha(0f));
 
         // UI table to put everything in
-        uiTable = new Table();
+        Table uiTable = new Table();
         uiTable.setSize(game.WIDTH, game.HEIGHT);
         uiStage.addActor(uiTable);
 
