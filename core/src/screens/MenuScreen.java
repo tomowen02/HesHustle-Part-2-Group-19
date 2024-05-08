@@ -13,10 +13,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.skloch.game.HustleGame;
-import screens.CreditScreen;
-import screens.GameScreen;
-import screens.LeaderboardWindow;
-import screens.SettingsScreen;
 
 /**
  * A screen to display the game menu to the player has the buttons "Start", "Settings", "Credits, "Exit"
