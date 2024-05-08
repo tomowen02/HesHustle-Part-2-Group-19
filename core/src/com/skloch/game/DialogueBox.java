@@ -296,7 +296,7 @@ public class DialogueBox {
      */
     public void initialiseLabelText(String text) {
         // Add a newline every 36 chars
-        String newString = "";
+        StringBuilder newString = new StringBuilder();
         int lastSpace = 0;
         int index = 0;
         int totalIndex = 0;
@@ -311,24 +311,24 @@ public class DialogueBox {
             if (index >= MAXCHARS) {
                 // If the current line is a space, just add a newline instead of a space
                 if (c == ' ') {
-                    newString = newString + "\n";
+                    newString.append("\n");
                     totalIndex += 1;
                     index = 0;
                 } else {
                     // If not, Replace the last space with a linebreak and add the char
                     // If the last linebreak is 0 or greater than MAXCHARS away, just add a break now
                     if (lastSpace == 0 || (totalIndex - lastSpace) >= MAXCHARS) {
-                        newString = newString + "\n";
+                        newString.append("\n");
                         index = 0;
                     } else {
-                        newString = newString.substring(0, lastSpace) + "\n" + newString.substring(lastSpace+1);
-                        newString = newString + c;
+                        newString = new StringBuilder(newString.substring(0, lastSpace) + "\n" + newString.substring(lastSpace + 1));
+                        newString.append(c);
                         index = totalIndex - lastSpace;
                         totalIndex += 1;
                     }
                 }
             } else {
-                newString = newString + c;
+                newString.append(c);
                 if (c == ' ') {
                     lastSpace = totalIndex;
                 }
@@ -341,21 +341,21 @@ public class DialogueBox {
         // Split the newString into chunks with 3 linebreaks
         textLines = new Array<>();
         int numBreaks = 0;
-        String subString = "";
+        StringBuilder subString = new StringBuilder();
 
-        for (String s: newString.split("\n")) {
+        for (String s: newString.toString().split("\n")) {
             if (numBreaks == 2) {
-                subString += s;
-                textLines.add(subString);
-                subString = "";
+                subString.append(s);
+                textLines.add(subString.toString());
+                subString = new StringBuilder();
                 numBreaks = 0;
             } else {
-                subString += s + "\n";
+                subString.append(s).append("\n");
                 numBreaks += 1;
             }
         }
-        if (subString != "") {
-            textLines.add(subString);
+        if (!subString.toString().equals("")) {
+            textLines.add(subString.toString());
         }
 
         textLabel.setText(textLines.get(0));
