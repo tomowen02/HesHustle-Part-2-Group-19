@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="20" tilewidth="48" tileheight="48" infinite="0" nextlayerid="6" nextobjectid="21">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="20" tilewidth="48" tileheight="48" infinite="0" nextlayerid="6" nextobjectid="23">
  <properties>
   <property name="backgroundLayers" value="0,1,2"/>
   <property name="collisionLayer" type="int" value="3"/>
@@ -99,7 +99,6 @@
   <object id="18" x="664" y="730" width="252" height="38"/>
  </objectgroup>
  <objectgroup id="5" name="Interact">
-  <object id="15" x="576" y="192" width="288" height="240"/>
   <object id="16" x="672" y="696" width="240" height="72">
    <properties>
     <property name="event" value="teleport"/>
@@ -107,9 +106,19 @@
    </properties>
   </object>
   <object id="17" x="1200" y="1008"/>
-  <object id="19" x="364" y="246" width="112" height="208">
+  <object id="19" x="626" y="212" width="816" height="144">
    <properties>
-    <property name="event" value="piazza"/>
+    <property name="event" value="chat"/>
+   </properties>
+  </object>
+  <object id="21" x="761" y="384" width="606" height="180">
+   <properties>
+    <property name="event" value="chat"/>
+   </properties>
+  </object>
+  <object id="22" x="342" y="216" width="154" height="334">
+   <properties>
+    <property name="event" value="eat"/>
    </properties>
   </object>
  </objectgroup>

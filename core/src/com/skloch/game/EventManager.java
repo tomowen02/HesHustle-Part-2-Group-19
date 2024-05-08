@@ -32,16 +32,21 @@ public class EventManager {
         objectInteractions = new HashMap<String, Event>();
         objectInteractions.put("chest", new Event("chest", "Open the chest?", 0));
         objectInteractions.put("comp_sci", new Event("comp_sci", "Study in the Computer Science building?", 10));
-        objectInteractions.put("piazza", new Event("piazza", "Meet your friends at the Piazza?", 10));
+        objectInteractions.put("chat", new Event("chat", "Would you like to chat to your friends?", 10));
+        objectInteractions.put("basketball", new Event("basketball", "Would you like to play basketball?", 10));
+        objectInteractions.put("eat", new Event("eat", "Would you like to eat?", 10));
         objectInteractions.put("accomodation", new Event("accomodation", "Go to sleep for the night?\nYour alarm is set for 8am.", 0));
         objectInteractions.put("rch", new Event("rch", "", 10)); // Changes, dynamically returned in getObjectInteraction
-        objectInteractions.put("tree", new Event("tree", "Speak to the tree?", 0));
+        objectInteractions.put("tree", new Event("tree", "Speak to the tree?", 5));
         objectInteractions.put("teleport", new Event("teleport", "Would you like to move location?", 0));
         objectInteractions.put("ducks", new Event("ducks", "Would you like to feed the ducks?", 10));
+        objectInteractions.put("cook", new Event("cook", "Would you like to cook?", 10));
+
 
         // Some random topics that can be chatted about
         String[] topics = {"Dogs", "Cats", "Exams", "Celebrities", "Flatmates", "Video games", "Sports", "Food", "Fashion"};
         talkTopics = new Array<String>(topics);
+        String[] meals = {"Pesto pasta", "Red pesto pasta", "Plain pasta", "Plain pesto", "Butter pasta", "Salt + Pepper pasta", "Pasta on toast", "Plain toast"};
     }
 
     public void event (String eventKey, String params) {
@@ -52,7 +57,7 @@ public class EventManager {
             args = new String[0];
         }
         // Important functions, most likely called after displaying text
-        switch (args[0]) {
+        switch (eventKey) {
             case "fadefromblack":
                 fadeFromBlack();
                 break;
@@ -78,14 +83,16 @@ public class EventManager {
                     objectInteractions.get(args[0]).perform();
                 }
                 break;
-            case "piazza":
-                piazzaEvent(args);
+            case "chat":
+                chatEvent(args);
+                break;
+            case "eat":
+                eatEvent(args);
                 break;
             case "comp_sci":
                 compSciEvent(args);
                 break;
             case "rch":
-                ronCookeEvent(args);
                 break;
             case "accomodation":
                 accomEvent(args);
@@ -93,8 +100,14 @@ public class EventManager {
             case "teleport":
                 teleportEvent(args);
                 break;
+            case "basketball":
+                basketballEvent(args);
+                break;
             case "ducks":
                 ducksEvent(args);
+                break;
+            case "cook":
+                cookEvent(args);
                 break;
             case "exit":
                 // Should do nothing and just close the dialogue menu
@@ -165,9 +178,9 @@ public class EventManager {
      *
      * @param args Arguments to be passed, should contain the hours the player wants to study. E.g. ["piazza", "1"]
      */
-    public void piazzaEvent(String[] args) {
+    public void chatEvent(String[] args) {
         if (gameScreen.getSeconds() > 8*60) {
-            int energyCost = objectInteractions.get("piazza").getEnergyCost();
+            int energyCost = objectInteractions.get("chat").getEnergyCost();
             // If the player is too tired to meet friends
             if (gameScreen.getEnergy() < energyCost) {
                 gameScreen.dialogueBox.setText("You are too tired to meet your friends right now!");
@@ -176,7 +189,7 @@ public class EventManager {
                 // Ask the player to chat about something (makes no difference)
                 String[] topics = randomTopics(3);
                 gameScreen.dialogueBox.setText("What do you want to chat about?");
-                String[] events = new String[] {"piazza", "piazza", "piazza"};
+                String[] events = new String[] {"chat", "chat", "chat"};
                 gameScreen.dialogueBox.getSelectBox().setOptions(topics, events, topics);
             } else {
                 // Say that the player chatted about this topic for 1-3 hours
@@ -262,17 +275,21 @@ public class EventManager {
      * Gives the player the choice to eat breakfast, lunch or dinner depending on the time of day
      * @param args
      */
-    public void ronCookeEvent(String[] args) {
+    public void eatEvent(String[] args) {
+        String eventKey = "eat";
+        if (args.length >= 1) {
+            eventKey = args[0];
+        }
         if (gameScreen.getSeconds() > 8*60) {
-            int energyCost = objectInteractions.get("rch").getEnergyCost();
+            int energyCost = objectInteractions.get(eventKey).getEnergyCost();
             if (gameScreen.getEnergy() < energyCost) {
                 gameScreen.dialogueBox.setText("You are too tired to eat right now!");
             } else {
-                gameScreen.dialogueBox.setText(String.format("You took an hour to eat %s at the Ron Cooke Hub!\nYou lost %d energy!", gameScreen.getMeal(), energyCost));
+                gameScreen.dialogueBox.setText(String.format("You took an hour to eat %s!\nYou lost %d energy!", gameScreen.getMeal(), energyCost));
                 gameScreen.decreaseEnergy(energyCost);
                 gameScreen.passTime(60); // in seconds
-                if (objectInteractions.containsKey(args[0])) {
-                    objectInteractions.get(args[0]).perform();
+                if (objectInteractions.containsKey(eventKey)) {
+                    objectInteractions.get(eventKey).perform();
                 }
             }
         } else {
@@ -342,7 +359,7 @@ public class EventManager {
 
     public void ducksEvent(String[] args) {
         if (gameScreen.getSeconds() > 8*60) {
-            int energyCost = activityEnergies.get("ducks");
+            int energyCost = objectInteractions.get("ducks").getEnergyCost();
             if (gameScreen.getEnergy() < energyCost) {
                 gameScreen.dialogueBox.setText("You are too tired to feed the ducks right now!");
             } else {
@@ -353,6 +370,40 @@ public class EventManager {
             }
         } else {
             gameScreen.dialogueBox.setText("It's too early in the morning to feed the ducks, the ducks are asleep!");
+        }
+    }
+
+    public void basketballEvent(String[] args) {
+        if (gameScreen.getSeconds() > 8*60) {
+            int energyCost = objectInteractions.get("basketball").getEnergyCost();
+            if (gameScreen.getEnergy() < energyCost) {
+                gameScreen.dialogueBox.setText("You are too tired to play basketball right now!");
+            } else {
+                gameScreen.dialogueBox.setText("You played for an hour!\nYou lost "+energyCost+" energy!");
+                gameScreen.decreaseEnergy(energyCost);
+                gameScreen.passTime(60);
+                gameScreen.addRecreationalHours(1);
+            }
+        } else {
+            gameScreen.dialogueBox.setText("It's too early in the morning to play basketball!");
+        }
+    }
+
+    public void cookEvent(String[] args) {
+        if (gameScreen.getSeconds() > 8*60) {
+            int energyCost = objectInteractions.get("cook").getEnergyCost();
+            if (gameScreen.getEnergy() < energyCost) {
+                gameScreen.dialogueBox.setText("You are too tired to cook right now. You might burn the house down!");
+            } else {
+                gameScreen.dialogueBox.setText(String.format("You took an hour to cook %s.\nYou lost %d energy!", gameScreen.getMeal(), energyCost));
+                gameScreen.decreaseEnergy(energyCost);
+                gameScreen.passTime(60); // in seconds
+                if (args.length >= 1 && objectInteractions.containsKey(args[0])) {
+                    objectInteractions.get(args[0]).perform();
+                }
+            }
+        } else {
+            gameScreen.dialogueBox.setText("It's too early in the morning to cook a meal.");
         }
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="20" tilewidth="48" tileheight="48" infinite="0" nextlayerid="7" nextobjectid="36">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="20" tilewidth="48" tileheight="48" infinite="0" nextlayerid="7" nextobjectid="37">
  <properties>
   <property name="backgroundLayers" value="0,1,2"/>
   <property name="collisionLayer" type="int" value="3"/>
@@ -118,6 +118,11 @@
   <object id="34" x="254.819" y="353.516" width="114.848" height="48.4514">
    <properties>
     <property name="event" value="accomodation"/>
+   </properties>
+  </object>
+  <object id="36" x="816.496" y="270.969" width="515.021" height="150.738">
+   <properties>
+    <property name="event" value="cook"/>
    </properties>
   </object>
  </objectgroup>
