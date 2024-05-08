@@ -15,6 +15,7 @@ public class EventManager {
     private final GameScreen gameScreen;
     private final HashMap<String, Event> objectInteractions;
     private final Array<String> talkTopics;
+    private final float FADE_DURATION = 0.5f;
 
     /**
      * A class that maps Object's event strings to actual Java functions.
@@ -361,7 +362,7 @@ public class EventManager {
      * Fades the screen to black
      */
     public void fadeToBlack() {
-        gameScreen.blackScreen.addAction(Actions.fadeIn(3f));
+        gameScreen.blackScreen.addAction(Actions.fadeIn(FADE_DURATION));
     }
 
     /**
@@ -369,7 +370,7 @@ public class EventManager {
      * @param runnable A runnable to execute after fading is finished
      */
     public void fadeToBlack(RunnableAction runnable) {
-        gameScreen.blackScreen.addAction(Actions.sequence(Actions.fadeIn(3f), runnable));
+        gameScreen.blackScreen.addAction(Actions.sequence(Actions.fadeIn(FADE_DURATION), runnable));
     }
 
     /**
@@ -389,9 +390,9 @@ public class EventManager {
             });
 
             // Queue up events
-            gameScreen.blackScreen.addAction(Actions.sequence(Actions.fadeOut(3f), setTextAction));
+            gameScreen.blackScreen.addAction(Actions.sequence(Actions.fadeOut(FADE_DURATION), setTextAction));
         } else {
-            gameScreen.blackScreen.addAction(Actions.fadeOut(3f));
+            gameScreen.blackScreen.addAction(Actions.fadeOut(FADE_DURATION));
         }
     }
 }
