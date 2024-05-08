@@ -35,15 +35,15 @@ public class Event {
     public void perform() {
         if (timesPerformedToday < 1) {
             streak++;
+            if (streak > maxStreak) {
+                maxStreak = streak;
+            }
         }
         timesPerformedToday++;
         timesPerformedTotal++;
     }
 
     public void resetStreak() {
-        if (streak > maxStreak) {
-            maxStreak = streak;
-        }
         streak = 0;
     }
 
