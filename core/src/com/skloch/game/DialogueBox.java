@@ -59,13 +59,13 @@ public class DialogueBox {
      * A class displaying a little selction box to the user when an input is needed in dialog
      */
     public class SelectBox {
-        private Window selectWindow;
-        private Table selectTable;
+        private final Window selectWindow;
+        private final Table selectTable;
         private int choiceIndex = 0;
         private String[] options;
         private String[] events;
         private String[] eventParams;
-        private Array<Label> optionPointers = new Array<Label>();
+        private final Array<Label> optionPointers = new Array<Label>();
         public SelectBox () {
             selectWindow = new Window("", skin);
             selectTable = new Table();
