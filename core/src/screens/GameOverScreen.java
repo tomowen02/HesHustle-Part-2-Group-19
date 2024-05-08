@@ -65,17 +65,9 @@ public class GameOverScreen implements Screen {
         gameOverTable.row();
 
         // Display scores
-        scoresTable.add(new Label("Hours Studied", game.skin, "interaction")).padBottom(5);
-        scoresTable.row();
-        scoresTable.add(new Label(String.valueOf(hoursStudied), game.skin, "button")).padBottom(20);
-        scoresTable.row();
-        scoresTable.add(new Label("Recreational hours", game.skin, "interaction")).padBottom(5);
-        scoresTable.row();
-        scoresTable.add(new Label(String.valueOf(hoursRecreational), game.skin, "button")).padBottom(20);
-        scoresTable.row();
-        scoresTable.add(new Label("Hours Slept", game.skin, "interaction")).padBottom(5);
-        scoresTable.row();
-        scoresTable.add(new Label(String.valueOf(hoursSlept), game.skin, "button"));
+        addActivityToTable(scoresTable, "Hours Studied", hoursStudied);
+        addActivityToTable(scoresTable, "Recreational Hours", hoursRecreational);
+        addActivityToTable(scoresTable, "Hours Slept", hoursSlept);
 
         // Leaderboard button
         TextButton leaderboardButton = new TextButton("Leaderboard", game.skin);
@@ -102,10 +94,7 @@ public class GameOverScreen implements Screen {
                 game.setScreen(new MenuScreen(game));
             }
         });
-
-
-
-
+        
         gameOverWindow.pack();
 
         gameOverWindow.setSize(600, 600);
@@ -113,6 +102,20 @@ public class GameOverScreen implements Screen {
         // Centre the window
         gameOverWindow.setX((viewport.getWorldWidth() / 2) - (gameOverWindow.getWidth() / 2));
         gameOverWindow.setY((viewport.getWorldHeight() / 2) - (gameOverWindow.getHeight() / 2));
+    }
+
+    /**
+     * Displays an activity and associated value on a provided table.
+     * eg) "Hours Slept", 16
+     * @param scoresTable Table on which to display the activity.
+     * @param activityName Description of the activity.
+     * @param value Value associated with the activity.
+     */
+    private void addActivityToTable(Table scoresTable, String activityName, int value) {
+        scoresTable.add(new Label(activityName, game.skin, "interaction")).padBottom(5);
+        scoresTable.row();
+        scoresTable.add(new Label(String.valueOf(value), game.skin, "button")).padBottom(20);
+        scoresTable.row();
     }
 
 
