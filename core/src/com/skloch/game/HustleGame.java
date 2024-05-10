@@ -33,6 +33,12 @@ public class HustleGame extends Game {
 
 	public Leaderboard leaderboard;
 
+	public static String PRIMARY_SKIN = "Interface/BlockyInterface.json";
+	public static String SECONDARY_SKIN = "Interface/PlainSkin/plain-james-ui.json";
+	public static String WHITE_SQUARE_PATH = "Sprites/white_square.png";
+	public static String CREDITS_PATH = "Text/credits.txt";
+	public static String TUTORIAL_PATH = "Text/tutorial_text.txt";
+
 
 	/**
 	 * A class to initialise a lot of the assets required for the game, including the map, sound and UI skin.
@@ -61,21 +67,21 @@ public class HustleGame extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		skin = new Skin(Gdx.files.internal("Interface/BlockyInterface.json"));
-		secondarySkin = new Skin(Gdx.files.internal("Interface/PlainSkin/plain-james-ui.json"));
+		skin = new Skin(Gdx.files.internal(PRIMARY_SKIN));
+		secondarySkin = new Skin(Gdx.files.internal(SECONDARY_SKIN));
 
 		shapeRenderer = new ShapeRenderer();
 		soundManager = new SoundManager();
 
 		// Make a stage with a blue background that any screen can draw
-		Image blueImage = new Image(new Texture(Gdx.files.internal("Sprites/white_square.png")));
+		Image blueImage = new Image(new Texture(Gdx.files.internal(WHITE_SQUARE_PATH)));
 		blueImage.setColor(0.53f, 0.81f, 0.92f, 1);
 		blueImage.setName("blue image");
 		blueBackground = new Stage();
 		blueBackground.addActor(blueImage);
 
-		credits = readTextFile("Text/credits.txt");
-		tutorialText = readTextFile("Text/tutorial_text.txt");
+		credits = readTextFile(CREDITS_PATH);
+		tutorialText = readTextFile(TUTORIAL_PATH);
 
 		leaderboard = new Leaderboard();
 

@@ -50,6 +50,9 @@ public class GameScreen implements Screen {
     private boolean sleeping = false;
     public MapManager mapManager;
 
+    public static String BLACK_SQUARE_PATH = "Sprites/black_square.png";
+    public static String ENERGY_BAR_PATH = "Interface/Energy Bar/green_bar.png";
+    public static String ENERGY_BAR_OUTLINE_PATH = "Interface/Energy Bar/bar_outline.png";
 
     /**
      *
@@ -78,7 +81,7 @@ public class GameScreen implements Screen {
         // Create a stage for the user interface to be on
         uiStage = new Stage(new FitViewport(game.WIDTH, game.HEIGHT));
         // Add a black image over everything first
-        blackScreen = new Image(new Texture(Gdx.files.internal("Sprites/black_square.png")));
+        blackScreen = new Image(new Texture(Gdx.files.internal(BLACK_SQUARE_PATH)));
         blackScreen.setSize(game.WIDTH, game.HEIGHT);
         blackScreen.addAction(Actions.alpha(0f));
 
@@ -124,8 +127,8 @@ public class GameScreen implements Screen {
         // Load energy bar elements
         Group energyGroup = new Group();
         energyGroup.setDebug(true);
-        energyBar = new Image(new Texture(Gdx.files.internal("Interface/Energy Bar/green_bar.png")));
-        Image energyBarOutline = new Image(new Texture(Gdx.files.internal("Interface/Energy Bar/bar_outline.png")));
+        energyBar = new Image(new Texture(Gdx.files.internal(ENERGY_BAR_PATH)));
+        Image energyBarOutline = new Image(new Texture(Gdx.files.internal(ENERGY_BAR_OUTLINE_PATH)));
         energyBarOutline.setPosition(game.WIDTH-energyBarOutline.getWidth() - 15, 15);
         energyBar.setPosition(energyBarOutline.getX()+16, energyBarOutline.getY()+16);
         energyGroup.addActor(energyBar);
