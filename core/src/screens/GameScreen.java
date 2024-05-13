@@ -33,7 +33,9 @@ public class GameScreen implements Screen {
     private int energy = 100;
     private int hoursStudied, hoursRecreational, hoursSlept;
     private float daySeconds = 0; // Current seconds elapsed in day
+
     private int day = 1; // What day the game is on
+    public final int FINAL_DAY = 8;
     private Label timeLabel, dayLabel;
     public Player player;
     private Window escapeMenu;
@@ -515,7 +517,7 @@ public class GameScreen implements Screen {
             dayLabel.setText(String.format("Day %s", day));
         }
 
-        if (day >= 8) {
+        if (day >= FINAL_DAY) {
             GameOver();
         }
     }
@@ -676,7 +678,7 @@ public class GameScreen implements Screen {
      * @return A wake up message based on the time left until the exam
      */
     public String getWakeUpMessage() {
-        int daysLeft = 8 - day;
+        int daysLeft = FINAL_DAY - day;
         if (daysLeft != 1) {
             return String.format("You have %d days left until your exam!\nRemember to eat, study and have fun, but don't overwork yourself!", daysLeft);
         } else {
@@ -725,5 +727,9 @@ public class GameScreen implements Screen {
     private Vector2 getViewportSize() {
         float viewportScalar = mapManager.getViewportScalar();
         return new Vector2((game.WIDTH/2)*viewportScalar, (game.HEIGHT/2)*viewportScalar);
+    }
+
+    public int getDay() {
+        return day;
     }
 }
