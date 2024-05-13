@@ -52,19 +52,23 @@ public class EventManager {
 
         achievements = new ArrayList<>();
 
+        Achievement achievement = new Achievement("Yappa-Yapper", "Talk to your friends 3 days in a row.");
+        achievement.addPredicate(objectInteractions.get("chat"), p -> p.getMaxStreak() >= 3);
+        achievements.add(achievement);
 
-        Achievement a = new Achievement("Yappa-Yapper", "Talk to your friends 3 days in a row.");
-        a.addPredicate(objectInteractions.get("chat"), p -> p.getMaxStreak() >= 3);
-        achievements.add(a);
+        achievement = new Achievement("Academic Weapon", "Study every day.");
+        achievement.addPredicate(objectInteractions.get("comp_sci"), p -> p.getMaxStreak() == 7);
+        achievements.add(achievement);
 
-        Achievement b = new Achievement("Academic Weapon", "Study every day.");
-        b.addPredicate(objectInteractions.get("comp_sci"), p -> p.getMaxStreak() == 7);
-        achievements.add(b);
+        achievement = new Achievement("Eco Warrior", "Feed the ducks and speak to the tree on the same day.");
+        achievement.addPredicate(objectInteractions.get("ducks"), p -> p.getTimesPerformedToday() == 1);
+        achievement.addPredicate(objectInteractions.get("tree"), p -> p.getTimesPerformedToday() == 1);
+        achievements.add(achievement);
 
-        Achievement c = new Achievement("Eco Warrior", "Feed the ducks and speak to the tree on the same day.");
-        c.addPredicate(objectInteractions.get("ducks"), p -> p.getTimesPerformedToday() == 1);
-        c.addPredicate(objectInteractions.get("tree"), p -> p.getTimesPerformedToday() == 1);
-        achievements.add(c);
+        achievement = new Achievement("Living on the edge", "Don't study a single time all week.");
+        achievement.addPredicate(objectInteractions.get("comp_sci"), p -> p.getTimesPerformedTotal() == 0);
+        achievement.addPredicate(objectInteractions.get("comp_sci"), p -> gameScreen.getDay() == gameScreen.FINAL_DAY);
+        achievements.add(achievement);
     }
 
     public void event (String eventKey, String params) {
