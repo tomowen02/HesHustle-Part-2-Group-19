@@ -34,12 +34,16 @@ public class Achievement {
 
         achieved = true;
         for (Event event : predicates.keySet()) {
-            achieved = predicates.get(event).test(event);
+            achieved = achieved && predicates.get(event).test(event);
         }
         return achieved;
     }
 
     public void addPredicate(Event event, Predicate<Event> predicate) {
         predicates.put(event, predicate);
+    }
+
+    public void addPredicate(Predicate<Event> predicate) {
+        predicates.put(new Event("", "", 0), predicate);
     }
 }

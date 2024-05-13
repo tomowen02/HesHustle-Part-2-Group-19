@@ -67,7 +67,7 @@ public class EventManager {
 
         achievement = new Achievement("Living on the edge", "Don't study a single time all week.");
         achievement.addPredicate(objectInteractions.get("comp_sci"), p -> p.getTimesPerformedTotal() == 0);
-        achievement.addPredicate(objectInteractions.get("comp_sci"), p -> gameScreen.getDay() == gameScreen.FINAL_DAY);
+        achievement.addPredicate(p -> gameScreen.getDay() == gameScreen.FINAL_DAY);
         achievements.add(achievement);
 
         achievement = new Achievement("Air Jordan", "Play basketball 4 days in a row.");
@@ -484,6 +484,14 @@ public class EventManager {
             gameScreen.blackScreen.addAction(Actions.sequence(Actions.fadeOut(FADE_DURATION), setTextAction));
         } else {
             gameScreen.blackScreen.addAction(Actions.fadeOut(FADE_DURATION));
+        }
+    }
+
+    public void listAchievements() {
+        for (Achievement achievement : achievements) {
+            if (achievement.isAchieved()) {
+                System.out.println(achievement.getName() + ": " + achievement.getDescription());
+            }
         }
     }
 }
