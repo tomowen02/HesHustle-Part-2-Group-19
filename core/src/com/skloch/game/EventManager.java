@@ -73,6 +73,21 @@ public class EventManager {
         achievement = new Achievement("Air Jordan", "Play basketball 4 days in a row.");
         achievement.addPredicate(objectInteractions.get("basketball"), p -> p.getMaxStreak() == 4);
         achievements.add(achievement);
+
+        achievement = new Achievement("Roses Champion", "Play basketball 5 times in one day.");
+        achievement.addPredicate(objectInteractions.get("basketball"), p -> p.getTimesPerformedToday() == 5);
+        achievements.add(achievement);
+
+        achievement = new Achievement("Hunger Strike", "Go a whole day without eating anything.");
+        achievement.addPredicate(objectInteractions.get("eat"), p -> p.getTimesPerformedToday() == 0);
+        achievement.addPredicate(objectInteractions.get("cook"), p -> p.getTimesPerformedToday() == 0);
+        achievements.add(achievement);
+
+        achievement = new Achievement("Swot", "Study every day, but don't talk to your friends a single time. Your only friend is a tree.");
+        achievement.addPredicate(objectInteractions.get("comp_sci"), p -> p.getMaxStreak() == 7);
+        achievement.addPredicate(objectInteractions.get("chat"), p -> p.getTimesPerformedTotal() == 0);
+        achievement.addPredicate(objectInteractions.get("tree"), p -> p.getTimesPerformedTotal() >= 1);
+        achievements.add(achievement);
     }
 
     public void event (String eventKey, String params) {
