@@ -88,47 +88,39 @@ public class EventManager {
         }
 
         // Events related to objects
+        boolean eventPerformed = false;
         switch (eventKey) {
             case "tree":
-                treeEvent();
-                if (objectInteractions.containsKey(eventKey)) {
-                    objectInteractions.get(eventKey).perform();
-                }
+                eventPerformed = treeEvent();
                 break;
             case "chest":
-                chestEvent();
-                if (objectInteractions.containsKey(eventKey)) {
-                    objectInteractions.get(eventKey).perform();
-                }
+                eventPerformed = chestEvent();
                 break;
             case "chat":
-                chatEvent(args);
+                eventPerformed = chatEvent(args);
                 break;
             case "eat":
-                eatEvent(args);
+                eventPerformed = eatEvent(args);
                 break;
             case "comp_sci":
-                compSciEvent(args);
+                eventPerformed = compSciEvent(args);
                 break;
             case "rch":
                 break;
             case "accomodation":
-                accomEvent(args);
+                eventPerformed = accomEvent(args);
                 break;
             case "teleport":
-                teleportEvent(args);
+                eventPerformed = teleportEvent(args);
                 break;
             case "basketball":
-                basketballEvent(args);
+                eventPerformed = basketballEvent(args);
                 break;
             case "ducks":
-                ducksEvent(args);
-                if (objectInteractions.containsKey(eventKey)) {
-                    objectInteractions.get(eventKey).perform();
-                }
+                eventPerformed = ducksEvent(args);
                 break;
             case "cook":
-                cookEvent(args);
+                eventPerformed = cookEvent(args);
                 break;
             case "exit":
                 // Should do nothing and just close the dialogue menu
@@ -137,7 +129,9 @@ public class EventManager {
             default:
                 objectEvent(eventKey);
                 break;
-
+        }
+        if (eventPerformed && objectInteractions.containsKey(eventKey)) {
+            objectInteractions.get(eventKey).perform();
         }
     }
 
@@ -145,7 +139,8 @@ public class EventManager {
         for (Achievement achievement : achievements)
         {
             if (!achievement.isAchieved()) {
-                achievement.validate();
+                if (achievement.validate())
+                    System.out.println(achievement.getName());
             }
         }
         for (Event event : objectInteractions.values()) {
@@ -179,16 +174,17 @@ public class EventManager {
     /**
      * Sets the text when talking to a tree
      */
-    public void treeEvent() {
+    public boolean treeEvent() {
         gameScreen.dialogueBox.hideSelectBox();
         gameScreen.dialogueBox.setText("The tree doesn't say anything back.");
+        return true;
     }
 
 
-    public void chestEvent() {
+    public boolean chestEvent() {
         gameScreen.dialogueBox.hideSelectBox();
         gameScreen.dialogueBox.setText("Wow! This chest is full of so many magical items! I wonder how they will help you out on your journey! Boy, this is an awfully long piece of text, I wonder if someone is testing something?\n...\n...\n...\nHow cool!");
-
+        return true;
     }
 
     /**
@@ -205,7 +201,7 @@ public class EventManager {
      *
      * @param args Arguments to be passed, should contain the hours the player wants to study. E.g. ["piazza", "1"]
      */
-    public void chatEvent(String[] args) {
+    public boolean chatEvent(String[] args) {
         if (gameScreen.getSeconds() > 8*60) {
             int energyCost = objectInteractions.get("chat").getEnergyCost();
             // If the player is too tired to meet friends
@@ -226,13 +222,13 @@ public class EventManager {
                 gameScreen.decreaseEnergy(energyCost * hours);
                 gameScreen.passTime(hours * 60); // in seconds
                 gameScreen.addRecreationalHours(hours);
-                if (objectInteractions.containsKey(args[0])) {
-                    objectInteractions.get(args[0]).perform();
-                }
+                return true;
             }
         } else {
             gameScreen.dialogueBox.setText("It's too early in the morning to meet your friends, go to bed!");
         }
+
+        return false;
     }
 
     /**
@@ -260,8 +256,9 @@ public class EventManager {
      * The event to be run when interacting with the computer science building
      * Gives the player the option to study for 2, 3 or 4 hours
      * @param args
+     * @return true if the event is successfully performed, false otherwise.
      */
-    public void compSciEvent(String[] args) {
+    public boolean compSciEvent(String[] args) {
         if (gameScreen.getSeconds() > 8*60) {
             int energyCost = objectInteractions.get("comp_sci").getEnergyCost();
             // If the player is too tired for any studying:
@@ -286,14 +283,14 @@ public class EventManager {
                     gameScreen.decreaseEnergy(energyCost * hours);
                     gameScreen.addStudyHours(hours);
                     gameScreen.passTime(hours * 60); // in seconds
-                    if (objectInteractions.containsKey(args[0])) {
-                        objectInteractions.get(args[0]).perform();
-                    }
+                    return true;
                 }
             }
         } else {
             gameScreen.dialogueBox.setText("It's too early in the morning to study, go to bed!");
         }
+
+        return false;
     }
 
 
@@ -301,8 +298,9 @@ public class EventManager {
      * The event to be run when the player interacts with the ron cooke hub
      * Gives the player the choice to eat breakfast, lunch or dinner depending on the time of day
      * @param args
+     * @return true if the event is successfully performed, false otherwise.
      */
-    public void eatEvent(String[] args) {
+    public boolean eatEvent(String[] args) {
         String eventKey = "eat";
         if (args.length >= 1) {
             eventKey = args[0];
@@ -315,14 +313,13 @@ public class EventManager {
                 gameScreen.dialogueBox.setText(String.format("You took an hour to eat %s!\nYou lost %d energy!", gameScreen.getMeal(), energyCost));
                 gameScreen.decreaseEnergy(energyCost);
                 gameScreen.passTime(60); // in seconds
-                if (objectInteractions.containsKey(eventKey)) {
-                    objectInteractions.get(eventKey).perform();
-                }
+                return true;
             }
         } else {
             gameScreen.dialogueBox.setText("It's too early in the morning to eat food, go to bed!");
         }
 
+        return false;
     }
 
     /**
@@ -331,8 +328,9 @@ public class EventManager {
      * Then queues up fadeFromBlack to be called when this dialogue closes
      * @see GameScreen fadeToBlack function
      * @param args Unused currently
+     * @return true if the event is successfully performed, false otherwise.
      */
-    public void accomEvent(String[] args) {
+    public boolean accomEvent(String[] args) {
         gameScreen.setSleeping(true);
         gameScreen.dialogueBox.hide();
 
@@ -360,9 +358,10 @@ public class EventManager {
         });
 
         fadeToBlack(setTextAction);
+        return true;
     }
 
-    public void teleportEvent(String[] args) {
+    public boolean teleportEvent(String[] args) {
         try {
 //            gameScreen.dialogueBox.hide();
             if (args.length == 1) {
@@ -378,13 +377,15 @@ public class EventManager {
                 gameScreen.player.setPos(x, y);
             }
             gameScreen.dialogueBox.hide();
+            return true;
         } catch (Exception e) {
             gameScreen.dialogueBox.setText("Teleport failed!");
         }
 
+        return false;
     }
 
-    public void ducksEvent(String[] args) {
+    public boolean ducksEvent(String[] args) {
         if (gameScreen.getSeconds() > 8*60) {
             int energyCost = objectInteractions.get("ducks").getEnergyCost();
             if (gameScreen.getEnergy() < energyCost) {
@@ -394,13 +395,16 @@ public class EventManager {
                 gameScreen.decreaseEnergy(energyCost);
                 gameScreen.passTime(60);
                 gameScreen.addRecreationalHours(1);
+                return true;
             }
         } else {
             gameScreen.dialogueBox.setText("It's too early in the morning to feed the ducks, the ducks are asleep!");
         }
+
+        return false;
     }
 
-    public void basketballEvent(String[] args) {
+    public boolean basketballEvent(String[] args) {
         if (gameScreen.getSeconds() > 8*60) {
             int energyCost = objectInteractions.get("basketball").getEnergyCost();
             if (gameScreen.getEnergy() < energyCost) {
@@ -410,13 +414,16 @@ public class EventManager {
                 gameScreen.decreaseEnergy(energyCost);
                 gameScreen.passTime(60);
                 gameScreen.addRecreationalHours(1);
+                return true;
             }
         } else {
             gameScreen.dialogueBox.setText("It's too early in the morning to play basketball!");
         }
+
+        return false;
     }
 
-    public void cookEvent(String[] args) {
+    public boolean cookEvent(String[] args) {
         if (gameScreen.getSeconds() > 8*60) {
             int energyCost = objectInteractions.get("cook").getEnergyCost();
             if (gameScreen.getEnergy() < energyCost) {
@@ -425,13 +432,13 @@ public class EventManager {
                 gameScreen.dialogueBox.setText(String.format("You took an hour to cook %s.\nYou lost %d energy!", gameScreen.getMeal(), energyCost));
                 gameScreen.decreaseEnergy(energyCost);
                 gameScreen.passTime(60); // in seconds
-                if (args.length >= 1 && objectInteractions.containsKey(args[0])) {
-                    objectInteractions.get(args[0]).perform();
-                }
+                return true;
             }
         } else {
             gameScreen.dialogueBox.setText("It's too early in the morning to cook a meal.");
         }
+
+        return false;
     }
 
     /**
