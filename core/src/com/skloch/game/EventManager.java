@@ -69,6 +69,10 @@ public class EventManager {
         achievement.addPredicate(objectInteractions.get("comp_sci"), p -> p.getTimesPerformedTotal() == 0);
         achievement.addPredicate(objectInteractions.get("comp_sci"), p -> gameScreen.getDay() == gameScreen.FINAL_DAY);
         achievements.add(achievement);
+
+        achievement = new Achievement("Air Jordan", "Play basketball 4 days in a row.");
+        achievement.addPredicate(objectInteractions.get("basketball"), p -> p.getMaxStreak() == 4);
+        achievements.add(achievement);
     }
 
     public void event (String eventKey, String params) {
