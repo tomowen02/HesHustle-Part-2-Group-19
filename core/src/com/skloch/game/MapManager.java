@@ -26,6 +26,11 @@ public class MapManager {
     private GameScreen game;
 
 
+    public MapManager() {
+        mapLoader = new TmxMapLoader();
+        loadedMaps = new HashMap<>();
+    }
+
     public MapManager(GameScreen game) {
         mapLoader = new TmxMapLoader();
         loadedMaps = new HashMap<>();
@@ -54,7 +59,9 @@ public class MapManager {
         mapRenderer = new OrthogonalTiledMapRenderer(map);
         getLayers();
         viewportScalar = mapProperties.get("viewportScalar", Float.class);
-        game.teleported();
+        if (game != null) {
+            game.teleported();
+        }
         return map;
     }
 

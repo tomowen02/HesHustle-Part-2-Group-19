@@ -53,6 +53,7 @@ public class GameScreen implements Screen {
     public static String BLACK_SQUARE_PATH = "Sprites/black_square.png";
     public static String ENERGY_BAR_PATH = "Interface/Energy Bar/green_bar.png";
     public static String ENERGY_BAR_OUTLINE_PATH = "Interface/Energy Bar/bar_outline.png";
+    public static String MAP_PATH = "MapAssetsV2/Maps/Accomodation.tmx";
 
     /**
      *
@@ -175,7 +176,7 @@ public class GameScreen implements Screen {
 
         //		mapManager.loadMap("East Campus/east_campus.tmx");
 //		mapManager.loadMap("MapAssetsV2/Maps/CSBuilding.tmx");
-        mapManager.loadMap("MapAssetsV2/Maps/Accomodation.tmx");
+        mapManager.loadMap(MAP_PATH);
 
         // Set the player to the middle of the map
         player.setPos(mapManager.getMapDimensions().x / 2f, mapManager.getMapDimensions().y / 2f);
