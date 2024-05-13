@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.utils.Array;
 import screens.GameScreen;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -14,6 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class EventManager {
     private final GameScreen gameScreen;
     private final HashMap<String, Event> objectInteractions;
+    private final ArrayList<Achievement> achievements;
     private final Array<String> talkTopics;
     private final float FADE_DURATION = 0.5f;
 
@@ -47,6 +49,22 @@ public class EventManager {
         String[] topics = {"Dogs", "Cats", "Exams", "Celebrities", "Flatmates", "Video games", "Sports", "Food", "Fashion"};
         talkTopics = new Array<String>(topics);
         String[] meals = {"Pesto pasta", "Red pesto pasta", "Plain pasta", "Plain pesto", "Butter pasta", "Salt + Pepper pasta", "Pasta on toast", "Plain toast"};
+
+        achievements = new ArrayList<>();
+
+
+        Achievement a = new Achievement("Yappa-Yapper", "Talk to your friends 3 days in a row.");
+        a.addPredicate(objectInteractions.get("chat"), p -> p.getMaxStreak() >= 3);
+        achievements.add(a);
+
+        Achievement b = new Achievement("Academic Weapon", "Study every day.");
+        b.addPredicate(objectInteractions.get("comp_sci"), p -> p.getMaxStreak() == 7);
+        achievements.add(b);
+
+        Achievement c = new Achievement("Eco Warrior", "Feed the ducks and speak to the tree on the same day.");
+        c.addPredicate(objectInteractions.get("ducks"), p -> p.getTimesPerformedToday() == 1);
+        c.addPredicate(objectInteractions.get("tree"), p -> p.getTimesPerformedToday() == 1);
+        achievements.add(c);
     }
 
     public void event (String eventKey, String params) {
@@ -73,14 +91,14 @@ public class EventManager {
         switch (eventKey) {
             case "tree":
                 treeEvent();
-                if (args.length >= 1 && objectInteractions.containsKey(args[0])) {
-                    objectInteractions.get(args[0]).perform();
+                if (objectInteractions.containsKey(eventKey)) {
+                    objectInteractions.get(eventKey).perform();
                 }
                 break;
             case "chest":
                 chestEvent();
-                if (objectInteractions.containsKey(args[0])) {
-                    objectInteractions.get(args[0]).perform();
+                if (objectInteractions.containsKey(eventKey)) {
+                    objectInteractions.get(eventKey).perform();
                 }
                 break;
             case "chat":
@@ -105,6 +123,9 @@ public class EventManager {
                 break;
             case "ducks":
                 ducksEvent(args);
+                if (objectInteractions.containsKey(eventKey)) {
+                    objectInteractions.get(eventKey).perform();
+                }
                 break;
             case "cook":
                 cookEvent(args);
@@ -121,6 +142,12 @@ public class EventManager {
     }
 
     public void advanceDay() {
+        for (Achievement achievement : achievements)
+        {
+            if (!achievement.isAchieved()) {
+                achievement.validate();
+            }
+        }
         for (Event event : objectInteractions.values()) {
             event.dayAdvanced();
         }
