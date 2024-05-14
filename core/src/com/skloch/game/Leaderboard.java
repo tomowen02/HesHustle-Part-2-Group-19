@@ -32,7 +32,7 @@ public class Leaderboard {
     }
     */
 
-    private final String FILENAME = "leaderboard.json";
+    private String FILENAME = "leaderboard.json";
     private List<LeaderboardEntry> leaderboardData;
     private int maxEntries;
     private boolean isTest;

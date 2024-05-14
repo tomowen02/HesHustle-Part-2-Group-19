@@ -25,7 +25,7 @@ public class MapManager {
     public int collisionLayer;
     public int interactLayer;
     private Float viewportScalar;
-    private final GameScreen game;
+    private GameScreen game;
 
 
     public MapManager() {
