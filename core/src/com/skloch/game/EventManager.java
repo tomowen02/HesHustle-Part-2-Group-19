@@ -284,6 +284,14 @@ public class EventManager {
      */
     public boolean compSciEvent(String[] args) {
         if (gameScreen.getSeconds() > 8*60) {
+            // If the player has already studied today and has used their 'catchup' session
+            Event event = events.get("comp_sci");
+            if (event.getTimesPerformedToday() > 0 && event.getTimesPerformedTotal() > gameScreen.getDay())
+            {
+                gameScreen.dialogueBox.setText("You've already studied enough for one day...");
+                return false;
+            }
+
             int energyCost = events.get("comp_sci").getEnergyCost();
             // If the player is too tired for any studying:
             if (gameScreen.getEnergy() < energyCost) {
