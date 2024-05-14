@@ -1,0 +1,35 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    name: Publish binaries
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
+    - name: Replace windows line returns with Linux line returns
+      run: sed -i -e 's/\r$//' gradlew
+    - name: Make Gradle executable
+      run: chmod +x ./gradlew
+    - name: Build
+      run: ./gradlew build
+    - name: Bundle JAR file
+      run: ./gradlew desktop:dist
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: desktop/build/libs/desktop-1.0.jar
+        asset_name: desktop_release.jar
+        tag: ${{ github.ref }}
+        overwrite: true
+        body: "This is the latest release"

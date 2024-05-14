@@ -26,6 +26,8 @@ public class MenuScreen implements Screen {
     private final Image titleImage;
     private final LeaderboardWindow leaderboardWindow;
 
+    public static String TITLE_IMAGE_PATH = "title.png";
+
     /**
      * A class to display a menu screen, initially gives the player 4 options, Start, Settings, Credits, Quit
      * Upon hitting start, a tutorial window is shown, and then an avatar select screen is shown, and then it is
@@ -54,7 +56,7 @@ public class MenuScreen implements Screen {
         game.blueBackground.getRoot().findActor("blue image").setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
 
         // Title image
-        titleImage = new Image(new Texture(Gdx.files.internal("title.png")));
+        titleImage = new Image(new Texture(Gdx.files.internal(TITLE_IMAGE_PATH)));
         titleImage.setPosition((viewport.getWorldWidth() / 2f) - (titleImage.getWidth() / 2f), 500);
         menuStage.addActor(titleImage);
 

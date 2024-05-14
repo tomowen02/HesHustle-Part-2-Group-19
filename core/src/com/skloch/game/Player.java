@@ -37,6 +37,8 @@ public class Player {
     public boolean frozen;
     public boolean moving;
 
+    public static String SPRITE_ATLAS_PATH = "Sprites/Player/player_sprites.atlas";
+
     /**
      * A player character, contains methods to move the player and update animations, also includes collision handling
      * and can be used to trigger events of objects near the player.
@@ -48,7 +50,7 @@ public class Player {
      */
     public Player (String avatar) {
         // Load the player's textures from the atlas
-        TextureAtlas playerAtlas = new TextureAtlas(Gdx.files.internal("Sprites/Player/player_sprites.atlas"));
+        TextureAtlas playerAtlas = new TextureAtlas(Gdx.files.internal(SPRITE_ATLAS_PATH));
 
         walkingAnimation = new Array<Animation<TextureRegion>>(4);
         idleAnimation = new Array<Animation<TextureRegion>>(4);

@@ -22,6 +22,15 @@ public class SoundManager implements Disposable {
     private final Sound dialogueOptionSound;
     private final Sound buttonSound;
 
+    public static String OVERWORLD_MUSIC_PATH = "Music/OverworldMusic.mp3";
+    public static String MENU_MUSIC_PATH = "Music/Streetlights.ogg";
+    public static String FOOTSTEP1_PATH = "Sounds/footstep1 grass.ogg";
+    public static String FOOTSTEP2_PATH = "Sounds/footstep2 grass.ogg";
+    public static String PAUSE_SOUND_PATH = "Sounds/Pause01.wav";
+    public static String DIALOGUE_OPEN_SOUND_PATH = "Sounds/DialogueOpen.wav";
+    public static String DIALOGUE_OPTION_SOUND_PATH = "Sounds/DialogueOption.wav";
+    public static String BUTTON_SOUND_PATH = "Sounds/Button.wav";
+
     /**
      * A class to handle playing sounds in the game, handles loading and playing of music and sounds
      * so a GameScreen can just call "play overworld music" without needing to know the track title.
@@ -29,19 +38,18 @@ public class SoundManager implements Disposable {
      */
     public SoundManager () {
         // Load music
-        overworldMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/OverworldMusic.mp3"));
+        overworldMusic = Gdx.audio.newMusic(Gdx.files.internal(OVERWORLD_MUSIC_PATH));
         overworldMusic.setLooping(true);
-        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("Music/Streetlights.ogg"));
+        menuMusic = Gdx.audio.newMusic(Gdx.files.internal(MENU_MUSIC_PATH));
         menuMusic.setLooping(true);
 
         // Load SFX
-        footstep1 = Gdx.audio.newSound(Gdx.files.internal("Sounds/footstep1 grass.ogg"));
-        footstep2 = Gdx.audio.newSound(Gdx.files.internal("Sounds/footstep2 grass.ogg"));
-
-        pauseSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/Pause01.wav"));
-        dialogueOpenSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/DialogueOpen.wav"));
-        dialogueOptionSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/DialogueOption.wav"));
-        buttonSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/Button.wav"));
+        footstep1 = Gdx.audio.newSound(Gdx.files.internal(FOOTSTEP1_PATH));
+        footstep2 = Gdx.audio.newSound(Gdx.files.internal(FOOTSTEP2_PATH));
+        pauseSound = Gdx.audio.newSound(Gdx.files.internal(PAUSE_SOUND_PATH));
+        dialogueOpenSound = Gdx.audio.newSound(Gdx.files.internal(DIALOGUE_OPEN_SOUND_PATH));
+        dialogueOptionSound = Gdx.audio.newSound(Gdx.files.internal(DIALOGUE_OPTION_SOUND_PATH));
+        buttonSound = Gdx.audio.newSound(Gdx.files.internal(BUTTON_SOUND_PATH));
     }
 
     /**
