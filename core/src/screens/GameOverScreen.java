@@ -125,11 +125,7 @@ public class GameOverScreen implements Screen {
             }
         });
 
-
-
-
         gameOverWindow.pack();
-
         gameOverWindow.setSize(600, 600);
 
         // Centre the window
