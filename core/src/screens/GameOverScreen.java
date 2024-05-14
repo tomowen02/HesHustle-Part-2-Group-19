@@ -75,9 +75,9 @@ public class GameOverScreen implements Screen {
                 Collection<Event> events = game.gameScreen.getEvents();
                 ArrayList<String> data = new ArrayList<>();
 
-                data.add("Hours Studied: " + hoursStudied);
-                data.add("Recreation hours: " + hoursRecreational);
-                data.add("Hours Slept: " + hoursSlept);
+                data.add("Time spent studying: " + hoursStudied + " hours");
+                data.add("Time spent relaxing: " + hoursRecreational + " hours");
+                data.add("Time spent sleeping: " + hoursSlept + " hours");
 
                 for (Event e : events) {
                     data.add(e.getName() + ": " + e.getTimesPerformedTotal() + " times total.");
