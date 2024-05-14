@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class EventManager {
     private final GameScreen gameScreen;
-    private final HashMap<String, Event> objectInteractions;
+    private final HashMap<String, Event> events;
     private final ArrayList<Achievement> achievements;
     private final Array<String> talkTopics;
     private final float FADE_DURATION = 0.5f;
@@ -32,18 +32,18 @@ public class EventManager {
         this.gameScreen = gameScreen;
 
         // Define what to say when interacting with an object whose text won't change
-        objectInteractions = new HashMap<String, Event>();
-        objectInteractions.put("chest", new Event("chest", "Open the chest?", 0));
-        objectInteractions.put("comp_sci", new Event("comp_sci", "Study in the Computer Science building?", 10));
-        objectInteractions.put("chat", new Event("chat", "Would you like to chat to your friends?", 10));
-        objectInteractions.put("basketball", new Event("basketball", "Would you like to play basketball?", 10));
-        objectInteractions.put("eat", new Event("eat", "Would you like to eat?", 10));
-        objectInteractions.put("accomodation", new Event("accomodation", "Go to sleep for the night?\nYour alarm is set for 8am.", 0));
-        objectInteractions.put("rch", new Event("rch", "", 10)); // Changes, dynamically returned in getObjectInteraction
-        objectInteractions.put("tree", new Event("tree", "Speak to the tree?", 5));
-        objectInteractions.put("teleport", new Event("teleport", "Would you like to move location?", 0));
-        objectInteractions.put("ducks", new Event("ducks", "Would you like to feed the ducks?", 10));
-        objectInteractions.put("cook", new Event("cook", "Would you like to cook?", 10));
+        events = new HashMap<String, Event>();
+        events.put("chest", new Event("chest", "Open the chest?", 0));
+        events.put("comp_sci", new Event("comp_sci", "Study in the Computer Science building?", 10));
+        events.put("chat", new Event("chat", "Would you like to chat to your friends?", 10));
+        events.put("basketball", new Event("basketball", "Would you like to play basketball?", 10));
+        events.put("eat", new Event("eat", "Would you like to eat?", 10));
+        events.put("accomodation", new Event("accomodation", "Go to sleep for the night?\nYour alarm is set for 8am.", 0));
+        events.put("rch", new Event("rch", "", 10)); // Changes, dynamically returned in getObjectInteraction
+        events.put("tree", new Event("tree", "Speak to the tree?", 5));
+        events.put("teleport", new Event("teleport", "Would you like to move location?", 0));
+        events.put("ducks", new Event("ducks", "Would you like to feed the ducks?", 10));
+        events.put("cook", new Event("cook", "Would you like to cook?", 10));
 
         // Some random topics that can be chatted about
         String[] topics = {"Dogs", "Cats", "Exams", "Celebrities", "Flatmates", "Video games", "Sports", "Food", "Fashion"};
@@ -53,40 +53,40 @@ public class EventManager {
         achievements = new ArrayList<>();
 
         Achievement achievement = new Achievement("Yappa-Yapper", "Talk to your friends 3 days in a row.");
-        achievement.addPredicate(objectInteractions.get("chat"), p -> p.getMaxStreak() >= 3);
+        achievement.addPredicate(events.get("chat"), p -> p.getMaxStreak() >= 3);
         achievements.add(achievement);
 
         achievement = new Achievement("Academic Weapon", "Study every day.");
-        achievement.addPredicate(objectInteractions.get("comp_sci"), p -> p.getMaxStreak() == 7);
+        achievement.addPredicate(events.get("comp_sci"), p -> p.getMaxStreak() == 7);
         achievements.add(achievement);
 
         achievement = new Achievement("Eco Warrior", "Feed the ducks and speak to the tree on the same day.");
-        achievement.addPredicate(objectInteractions.get("ducks"), p -> p.getTimesPerformedToday() == 1);
-        achievement.addPredicate(objectInteractions.get("tree"), p -> p.getTimesPerformedToday() == 1);
+        achievement.addPredicate(events.get("ducks"), p -> p.getTimesPerformedToday() == 1);
+        achievement.addPredicate(events.get("tree"), p -> p.getTimesPerformedToday() == 1);
         achievements.add(achievement);
 
         achievement = new Achievement("Living on the edge", "Don't study a single time all week.");
-        achievement.addPredicate(objectInteractions.get("comp_sci"), p -> p.getTimesPerformedTotal() == 0);
+        achievement.addPredicate(events.get("comp_sci"), p -> p.getTimesPerformedTotal() == 0);
         achievement.addPredicate(p -> gameScreen.getDay() == gameScreen.FINAL_DAY);
         achievements.add(achievement);
 
         achievement = new Achievement("Air Jordan", "Play basketball 4 days in a row.");
-        achievement.addPredicate(objectInteractions.get("basketball"), p -> p.getMaxStreak() == 4);
+        achievement.addPredicate(events.get("basketball"), p -> p.getMaxStreak() == 4);
         achievements.add(achievement);
 
         achievement = new Achievement("Roses Champion", "Play basketball 5 times in one day.");
-        achievement.addPredicate(objectInteractions.get("basketball"), p -> p.getTimesPerformedToday() == 5);
+        achievement.addPredicate(events.get("basketball"), p -> p.getTimesPerformedToday() == 5);
         achievements.add(achievement);
 
         achievement = new Achievement("Hunger Strike", "Go a whole day without eating anything.");
-        achievement.addPredicate(objectInteractions.get("eat"), p -> p.getTimesPerformedToday() == 0);
-        achievement.addPredicate(objectInteractions.get("cook"), p -> p.getTimesPerformedToday() == 0);
+        achievement.addPredicate(events.get("eat"), p -> p.getTimesPerformedToday() == 0);
+        achievement.addPredicate(events.get("cook"), p -> p.getTimesPerformedToday() == 0);
         achievements.add(achievement);
 
         achievement = new Achievement("Swot", "Study every day, but don't talk to your friends a single time. Your only friend is a tree.");
-        achievement.addPredicate(objectInteractions.get("comp_sci"), p -> p.getMaxStreak() == 7);
-        achievement.addPredicate(objectInteractions.get("chat"), p -> p.getTimesPerformedTotal() == 0);
-        achievement.addPredicate(objectInteractions.get("tree"), p -> p.getTimesPerformedTotal() >= 1);
+        achievement.addPredicate(events.get("comp_sci"), p -> p.getMaxStreak() == 7);
+        achievement.addPredicate(events.get("chat"), p -> p.getTimesPerformedTotal() == 0);
+        achievement.addPredicate(events.get("tree"), p -> p.getTimesPerformedTotal() >= 1);
         achievements.add(achievement);
     }
 
@@ -153,8 +153,8 @@ public class EventManager {
                 objectEvent(eventKey);
                 break;
         }
-        if (eventPerformed && objectInteractions.containsKey(eventKey)) {
-            objectInteractions.get(eventKey).perform();
+        if (eventPerformed && events.containsKey(eventKey)) {
+            events.get(eventKey).perform();
         }
     }
 
@@ -166,7 +166,7 @@ public class EventManager {
                     System.out.println(achievement.getName());
             }
         }
-        for (Event event : objectInteractions.values()) {
+        for (Event event : events.values()) {
             event.dayAdvanced();
         }
     }
@@ -183,7 +183,7 @@ public class EventManager {
         if (key.equals("rch")) {
             return String.format("Eat %s at the Ron Cooke Hub?", gameScreen.getMeal());
         } else {
-            return objectInteractions.get(key).getText();
+            return events.get(key).getText();
         }
     }
 
@@ -191,7 +191,7 @@ public class EventManager {
      * @return True if the object has some custom text to display that isn't just "This is an x!"
      */
     public boolean hasCustomObjectInteraction(String key) {
-        return objectInteractions.containsKey(key);
+        return events.containsKey(key);
     }
 
     /**
@@ -226,7 +226,7 @@ public class EventManager {
      */
     public boolean chatEvent(String[] args) {
         if (gameScreen.getSeconds() > 8*60) {
-            int energyCost = objectInteractions.get("chat").getEnergyCost();
+            int energyCost = events.get("chat").getEnergyCost();
             // If the player is too tired to meet friends
             if (gameScreen.getEnergy() < energyCost) {
                 gameScreen.dialogueBox.setText("You are too tired to meet your friends right now!");
@@ -283,7 +283,7 @@ public class EventManager {
      */
     public boolean compSciEvent(String[] args) {
         if (gameScreen.getSeconds() > 8*60) {
-            int energyCost = objectInteractions.get("comp_sci").getEnergyCost();
+            int energyCost = events.get("comp_sci").getEnergyCost();
             // If the player is too tired for any studying:
             if (gameScreen.getEnergy() < energyCost) {
                 gameScreen.dialogueBox.hideSelectBox();
@@ -329,7 +329,7 @@ public class EventManager {
             eventKey = args[0];
         }
         if (gameScreen.getSeconds() > 8*60) {
-            int energyCost = objectInteractions.get(eventKey).getEnergyCost();
+            int energyCost = events.get(eventKey).getEnergyCost();
             if (gameScreen.getEnergy() < energyCost) {
                 gameScreen.dialogueBox.setText("You are too tired to eat right now!");
             } else {
@@ -410,7 +410,7 @@ public class EventManager {
 
     public boolean ducksEvent(String[] args) {
         if (gameScreen.getSeconds() > 8*60) {
-            int energyCost = objectInteractions.get("ducks").getEnergyCost();
+            int energyCost = events.get("ducks").getEnergyCost();
             if (gameScreen.getEnergy() < energyCost) {
                 gameScreen.dialogueBox.setText("You are too tired to feed the ducks right now!");
             } else {
@@ -429,7 +429,7 @@ public class EventManager {
 
     public boolean basketballEvent(String[] args) {
         if (gameScreen.getSeconds() > 8*60) {
-            int energyCost = objectInteractions.get("basketball").getEnergyCost();
+            int energyCost = events.get("basketball").getEnergyCost();
             if (gameScreen.getEnergy() < energyCost) {
                 gameScreen.dialogueBox.setText("You are too tired to play basketball right now!");
             } else {
@@ -448,7 +448,7 @@ public class EventManager {
 
     public boolean cookEvent(String[] args) {
         if (gameScreen.getSeconds() > 8*60) {
-            int energyCost = objectInteractions.get("cook").getEnergyCost();
+            int energyCost = events.get("cook").getEnergyCost();
             if (gameScreen.getEnergy() < energyCost) {
                 gameScreen.dialogueBox.setText("You are too tired to cook right now. You might burn the house down!");
             } else {
