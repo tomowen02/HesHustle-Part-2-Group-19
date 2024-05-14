@@ -18,6 +18,7 @@ import com.skloch.game.HustleGame;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * A screen that displays the player's stats at the end of the game.
@@ -80,7 +81,9 @@ public class GameOverScreen implements Screen {
                 data.add("Time spent sleeping: " + hoursSlept + " hours");
 
                 for (Event e : events) {
-                    data.add(e.getName() + ": " + e.getTimesPerformedTotal() + " times total.");
+                    if (Objects.equals(e.getName(), "eat")) {
+                        data.add("Ate food: " + e.getTimesPerformedTotal() + " times");
+                    }
                 }
 
                 new TextDisplayWindow("Stats", data, gameOverStage, game.skin, viewport).show();
