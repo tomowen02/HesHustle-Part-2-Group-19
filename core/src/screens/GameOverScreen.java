@@ -64,10 +64,6 @@ public class GameOverScreen implements Screen {
         gameOverTable.add(title).padTop(10);
         gameOverTable.row();
 
-        Table scoresTable = new Table();
-        gameOverTable.add(scoresTable).prefHeight(380).prefWidth(450);
-        gameOverTable.row();
-
         // Stats button
         TextButton statsButton = new TextButton("Stats", game.skin);
         gameOverTable.add(statsButton).bottom().width(300).padTop(10);
@@ -86,7 +82,7 @@ public class GameOverScreen implements Screen {
                 for (Event e : events) {
                     data.add(e.getName() + ": " + e.getTimesPerformedTotal() + " times total.");
                 }
-                
+
                 new TextDisplayWindow("Stats", data, gameOverStage, game.skin, viewport).show();
             }
         });
