@@ -510,15 +510,7 @@ public class EventManager {
             gameScreen.blackScreen.addAction(Actions.fadeOut(FADE_DURATION));
         }
     }
-
-    public void listAchievements() {
-        for (Achievement achievement : achievements) {
-            if (achievement.isAchieved()) {
-                System.out.println(achievement.getName() + ": " + achievement.getDescription());
-            }
-        }
-    }
-
+    
     /**
      * @return Strings of format "Achievement Name: Achievement Description" for each 'achieved' achievement.
      */
