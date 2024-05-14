@@ -1,5 +1,10 @@
 package com.skloch.game;
 
+/**
+ * An in-game event that can be performed by the player. Tracks statistics such as the total number of times performed,
+ * the total times performed today, and the number of consecutive days performed. Defines the energy cost of the event.
+ * Contains methods which must be invoked when the event takes placed, and when day is advanced.
+ */
 public class Event {
     private final String name;
     private final String text;
@@ -9,6 +14,11 @@ public class Event {
     private int timesPerformedToday;
     private int timesPerformedTotal;
 
+    /**
+     * @param name Event's name.
+     * @param text Description or prompt text.
+     * @param energyCost Cost in energy.
+     */
     public Event(String name, String text, int energyCost) {
         this.name = name;
         this.text = text;
@@ -20,6 +30,9 @@ public class Event {
         return name;
     }
 
+    /**
+     * @return The provided description or prompt text.
+     */
     public String getText() {
         return text;
     }
@@ -28,10 +41,13 @@ public class Event {
         return energyCost;
     }
 
-    public int getStreak() {
+    public int getCurrentStreak() {
         return streak;
     }
 
+    /**
+     * Call this method when the player performs this event.
+     */
     public void perform() {
         if (timesPerformedToday < 1) {
             streak++;
@@ -59,6 +75,9 @@ public class Event {
         return timesPerformedToday;
     }
 
+    /**
+     * Call this method at the end of each day.
+     */
     public void dayAdvanced() {
         if (timesPerformedToday == 0) {
             resetStreak();
