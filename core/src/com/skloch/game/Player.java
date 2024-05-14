@@ -28,7 +28,7 @@ public class Player {
     private final Array<Animation<TextureRegion>> walkingAnimation;
     private final Array<Animation<TextureRegion>> idleAnimation;
     // Stats
-    public float speed = 500f;
+    public float speed = 550f;
     public List<GameObject> collidables;
     public List<GameObject> interactables;
     public int scale = 4;
