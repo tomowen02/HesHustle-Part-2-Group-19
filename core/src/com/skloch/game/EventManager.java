@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import screens.GameScreen;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -508,5 +509,20 @@ public class EventManager {
                 System.out.println(achievement.getName() + ": " + achievement.getDescription());
             }
         }
+    }
+
+    /**
+     * @return Strings of format "Achievement Name: Achievement Description" for each 'achieved' achievement.
+     */
+    public Collection<String> getAchievements() {
+        Collection<String> data = new ArrayList<>();
+
+        for (Achievement achievement : achievements) {
+            if (achievement.isAchieved()) {
+                data.add(achievement.getName() + ": " + achievement.getDescription());
+            }
+        }
+
+        return data;
     }
 }

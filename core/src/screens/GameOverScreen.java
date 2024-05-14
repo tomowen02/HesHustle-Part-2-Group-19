@@ -89,6 +89,18 @@ public class GameOverScreen implements Screen {
             }
         });
 
+        // Achievements button
+        TextButton achievementsButton = new TextButton("Achievements", game.skin);
+        gameOverTable.add(achievementsButton).bottom().width(300).padTop(10);
+        gameOverTable.row();
+
+        achievementsButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                new AchievementsWindow(game.gameScreen.getAchievements(), gameOverStage, game.skin, viewport).show();
+            }
+        });
+
         // Exit button
         TextButton exitButton = new TextButton("Main Menu", game.skin);
         gameOverTable.add(exitButton).bottom().width(300).padTop(10);

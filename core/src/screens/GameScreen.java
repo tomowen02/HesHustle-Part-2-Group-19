@@ -23,6 +23,8 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.skloch.game.*;
 
+import java.util.Collection;
+
 /**
  * Handles the majority of the game logic, rendering and user inputs of the game.
  * Responsible for rendering the player and the map, and calling events.
@@ -731,5 +733,9 @@ public class GameScreen implements Screen {
 
     public int getDay() {
         return day;
+    }
+
+    public Collection<String> getAchievements() {
+        return eventManager.getAchievements();
     }
 }
