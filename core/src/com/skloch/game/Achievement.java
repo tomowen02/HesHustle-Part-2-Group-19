@@ -14,12 +14,14 @@ public class Achievement {
     private final String description;
     private boolean achieved;
     private final HashMap<Event, Predicate<Event>> predicates;
+    public final int score;
 
-    public Achievement(String name, String description) {
+    public Achievement(String name, String description, int score) {
         this.name = name;
         this.description = description;
         achieved = false;
         predicates = new HashMap<>();
+        this.score = score;
     }
 
     public String getName() {

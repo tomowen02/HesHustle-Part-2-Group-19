@@ -36,6 +36,8 @@ public class GameScreen implements Screen {
     private int hoursStudied, hoursRecreational, hoursSlept;
     private float daySeconds = 0; // Current seconds elapsed in day
 
+    private int score = 0;
+
     private int day = 1; // What day the game is on
     public final int FINAL_DAY = 8;
     private Label timeLabel, dayLabel;
@@ -721,7 +723,8 @@ public class GameScreen implements Screen {
      * Ends the game, called at the end of the 7th day, switches to a screen that displays a score
      */
     public void GameOver() {
-        int score = (hoursStudied + hoursRecreational + hoursSlept) * 100;
+        score += (hoursStudied + hoursRecreational + hoursSlept) * 100;
+        score += eventManager.getAchievementScore();
         game.leaderboard.AddScore(game.playerName, score);
         game.setScreen(new GameOverScreen(game, hoursStudied, hoursRecreational, hoursSlept));
     }
@@ -741,5 +744,9 @@ public class GameScreen implements Screen {
 
     public Collection<Event> getEvents() {
         return eventManager.getEvents();
+    }
+
+    public int getScore() {
+        return score;
     }
 }

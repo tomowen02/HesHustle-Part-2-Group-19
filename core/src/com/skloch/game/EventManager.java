@@ -53,38 +53,38 @@ public class EventManager {
 
         achievements = new ArrayList<>();
 
-        Achievement achievement = new Achievement("Yappa-Yapper", "Talk to your friends 3 days in a row.");
+        Achievement achievement = new Achievement("Yappa-Yapper", "Talk to your friends 3 days in a row.", 3000);
         achievement.addPredicate(events.get("chat"), p -> p.getMaxStreak() >= 3);
         achievements.add(achievement);
 
-        achievement = new Achievement("Academic Weapon", "Study every day.");
+        achievement = new Achievement("Academic Weapon", "Study every day.", 10000);
         achievement.addPredicate(events.get("comp_sci"), p -> p.getMaxStreak() == 7);
         achievements.add(achievement);
 
-        achievement = new Achievement("Eco Warrior", "Feed the ducks and speak to the tree on the same day.");
+        achievement = new Achievement("Eco Warrior", "Feed the ducks and speak to the tree on the same day.", 3000);
         achievement.addPredicate(events.get("ducks"), p -> p.getTimesPerformedToday() == 1);
         achievement.addPredicate(events.get("tree"), p -> p.getTimesPerformedToday() == 1);
         achievements.add(achievement);
 
-        achievement = new Achievement("Living on the edge", "Don't study a single time all week.");
+        achievement = new Achievement("Living on the edge", "Don't study a single time all week.", 1000);
         achievement.addPredicate(events.get("comp_sci"), p -> p.getTimesPerformedTotal() == 0);
         achievement.addPredicate(p -> gameScreen.getDay() == gameScreen.FINAL_DAY);
         achievements.add(achievement);
 
-        achievement = new Achievement("Air Jordan", "Play basketball 4 days in a row.");
+        achievement = new Achievement("Air Jordan", "Play basketball 4 days in a row.", 5000);
         achievement.addPredicate(events.get("basketball"), p -> p.getMaxStreak() == 4);
         achievements.add(achievement);
 
-        achievement = new Achievement("Roses Champion", "Play basketball 5 times in one day.");
+        achievement = new Achievement("Roses Champion", "Play basketball 5 times in one day.", 6500);
         achievement.addPredicate(events.get("basketball"), p -> p.getTimesPerformedToday() == 5);
         achievements.add(achievement);
 
-        achievement = new Achievement("Hunger Strike", "Go a whole day without eating anything.");
+        achievement = new Achievement("Hunger Strike", "Go a whole day without eating anything.", 1000);
         achievement.addPredicate(events.get("eat"), p -> p.getTimesPerformedToday() == 0);
         achievement.addPredicate(events.get("cook"), p -> p.getTimesPerformedToday() == 0);
         achievements.add(achievement);
 
-        achievement = new Achievement("Swot", "Study every day, but don't talk to your friends a single time. Your only friend is a tree.");
+        achievement = new Achievement("Swot", "Study every day, but don't talk to your friends a single time. Your only friend is a tree.", 10000);
         achievement.addPredicate(events.get("comp_sci"), p -> p.getMaxStreak() == 7);
         achievement.addPredicate(events.get("chat"), p -> p.getTimesPerformedTotal() == 0);
         achievement.addPredicate(events.get("tree"), p -> p.getTimesPerformedTotal() >= 1);
@@ -512,14 +512,14 @@ public class EventManager {
     }
 
     /**
-     * @return Strings of format "Achievement Name: Achievement Description" for each 'achieved' achievement.
+     * @return Strings of format "Achievement Name: Achievement Description  (x points)" for each 'achieved' achievement.
      */
     public Collection<String> getAchievements() {
         Collection<String> data = new ArrayList<>();
 
         for (Achievement achievement : achievements) {
             if (achievement.isAchieved()) {
-                data.add(achievement.getName() + ": " + achievement.getDescription());
+                data.add(achievement.getName() + ": " + achievement.getDescription() + " (" + achievement.score + " points)");
             }
         }
 
@@ -532,5 +532,15 @@ public class EventManager {
             eventData.add(event.copy());
         }
         return eventData;
+    }
+
+    public int getAchievementScore() {
+        int score = 0;
+        for (Achievement achievement : achievements) {
+            if (achievement.isAchieved()) {
+                score += achievement.score;
+            }
+        }
+        return score;
     }
 }
