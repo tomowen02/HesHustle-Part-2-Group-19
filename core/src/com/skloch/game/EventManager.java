@@ -510,7 +510,7 @@ public class EventManager {
             gameScreen.blackScreen.addAction(Actions.fadeOut(FADE_DURATION));
         }
     }
-    
+
     /**
      * @return Strings of format "Achievement Name: Achievement Description" for each 'achieved' achievement.
      */
@@ -524,5 +524,13 @@ public class EventManager {
         }
 
         return data;
+    }
+
+    public Collection<Event> getEvents() {
+        Collection<Event> eventData = new ArrayList<>();
+        for (Event event : events.values()) {
+            eventData.add(event.copy());
+        }
+        return eventData;
     }
 }

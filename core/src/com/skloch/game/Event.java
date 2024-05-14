@@ -84,4 +84,14 @@ public class Event {
         }
         timesPerformedToday = 0;
     }
+
+    public Event copy() {
+        Event copy;
+        copy = new Event(name, text, energyCost);
+        copy.streak = streak;
+        copy.maxStreak = maxStreak;
+        copy.timesPerformedTotal = timesPerformedTotal;
+        copy.timesPerformedToday = timesPerformedToday;
+        return copy;
+    }
 }

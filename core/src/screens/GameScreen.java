@@ -738,4 +738,8 @@ public class GameScreen implements Screen {
     public Collection<String> getAchievements() {
         return eventManager.getAchievements();
     }
+
+    public Collection<Event> getEvents() {
+        return eventManager.getEvents();
+    }
 }

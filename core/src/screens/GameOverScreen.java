@@ -13,7 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.skloch.game.Event;
 import com.skloch.game.HustleGame;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * A screen that displays the player's stats at the end of the game.
@@ -64,18 +68,28 @@ public class GameOverScreen implements Screen {
         gameOverTable.add(scoresTable).prefHeight(380).prefWidth(450);
         gameOverTable.row();
 
-        // Display scores
-        scoresTable.add(new Label("Hours Studied", game.skin, "interaction")).padBottom(5);
-        scoresTable.row();
-        scoresTable.add(new Label(String.valueOf(hoursStudied), game.skin, "button")).padBottom(20);
-        scoresTable.row();
-        scoresTable.add(new Label("Recreational hours", game.skin, "interaction")).padBottom(5);
-        scoresTable.row();
-        scoresTable.add(new Label(String.valueOf(hoursRecreational), game.skin, "button")).padBottom(20);
-        scoresTable.row();
-        scoresTable.add(new Label("Hours Slept", game.skin, "interaction")).padBottom(5);
-        scoresTable.row();
-        scoresTable.add(new Label(String.valueOf(hoursSlept), game.skin, "button"));
+        // Stats button
+        TextButton statsButton = new TextButton("Stats", game.skin);
+        gameOverTable.add(statsButton).bottom().width(300).padTop(10);
+        gameOverTable.row();
+
+        statsButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Collection<Event> events = game.gameScreen.getEvents();
+                ArrayList<String> data = new ArrayList<>();
+
+                data.add("Hours Studied: " + hoursStudied);
+                data.add("Recreation hours: " + hoursRecreational);
+                data.add("Hours Slept: " + hoursSlept);
+
+                for (Event e : events) {
+                    data.add(e.getName() + ": " + e.getTimesPerformedTotal() + " times total.");
+                }
+                
+                new TextDisplayWindow("Stats", data, gameOverStage, game.skin, viewport).show();
+            }
+        });
 
         // Leaderboard button
         TextButton leaderboardButton = new TextButton("Leaderboard", game.skin);
@@ -97,7 +111,7 @@ public class GameOverScreen implements Screen {
         achievementsButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                new AchievementsWindow(game.gameScreen.getAchievements(), gameOverStage, game.skin, viewport).show();
+                new TextDisplayWindow("Achievements", game.gameScreen.getAchievements(), gameOverStage, game.skin, viewport).show();
             }
         });
 

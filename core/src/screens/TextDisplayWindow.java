@@ -5,23 +5,21 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.skloch.game.Achievement;
-import com.skloch.game.Leaderboard;
 
 import java.util.Collection;
 
-public class AchievementsWindow {
+public class TextDisplayWindow {
     private final Window window;
     private final Skin skin;
     private final Viewport viewport;
 
 
-    public AchievementsWindow(Collection<String> data, Stage parentStage, Skin skin, Viewport viewport) {
+    public TextDisplayWindow(String title, Collection<String> data, Stage parentStage, Skin skin, Viewport viewport) {
         window = new Window("", skin);
         this.skin = skin;
         this.viewport = viewport;
 
-        parentStage.addActor(buildWindow(data));
+        parentStage.addActor(buildWindow(data, title));
     }
 
     public void show() {
@@ -33,13 +31,13 @@ public class AchievementsWindow {
         window.setVisible(false);
     }
 
-    private Window buildWindow(Collection<String> data) {
+    private Window buildWindow(Collection<String> data, String titleText) {
         window.setVisible(false);
         Table table = new Table();
         window.add(table).prefHeight(600).prefWidth(800-20);
 
         // Title
-        Label title = new Label("Achievements", skin, "button");
+        Label title = new Label(titleText, skin, "button");
         table.add(title).padTop(10);
         table.row();
 
