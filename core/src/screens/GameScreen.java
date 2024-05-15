@@ -265,7 +265,11 @@ public class GameScreen implements Screen {
         // Let the player move to keyboard presses if not frozen
         // Player.move() handles player collision
         // Also play a footstep sound if they are moving
-        player.move(delta);
+        boolean isLeft = Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT);
+        boolean isRight = Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT);
+        boolean isUp = Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP);
+        boolean isDown = Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN);
+        player.move(isLeft, isRight, isUp, isDown, delta);
         if (player.isMoving()) {
             game.soundManager.playFootstep();
         } else {

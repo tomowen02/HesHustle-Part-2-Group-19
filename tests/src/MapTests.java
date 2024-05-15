@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import screens.GameScreen;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 @RunWith(GdxTestRunner.class)
 public class MapTests {
@@ -16,7 +17,7 @@ public class MapTests {
 
 //    @Test
 //    public void loadMap() {
-//        MapManager mapManager = new MapManager();
+//        MapManager mapManager = new MapManager(mock(GameScreen.class));
 //        mapManager.loadMap(GameScreen.MAP_PATH);
 //    }
 }

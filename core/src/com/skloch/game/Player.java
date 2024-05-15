@@ -28,7 +28,7 @@ public class Player {
     private final Array<Animation<TextureRegion>> walkingAnimation;
     private final Array<Animation<TextureRegion>> idleAnimation;
     // Stats
-    public float speed = 550f;
+    public float SPEED = 550f;
     public List<GameObject> collidables;
     public List<GameObject> interactables;
     public int scale = 4;
@@ -102,7 +102,7 @@ public class Player {
      *
      * @param delta The time passed since the previous render
      */
-    public void move (float delta) {
+    public void move (Boolean left, Boolean right, Boolean up, Boolean down, float delta) {
         // Updates the player's position based on keys being pressed
         // Also updates the direction they are facing, and whether they are currently moving
         // And also does collision
@@ -118,26 +118,26 @@ public class Player {
             // Move the player and their 2 other hitboxes
             float deltaX = 0;
             float deltaY = 0;
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
-                deltaX -= speed * delta;
+            if (left) {
+                deltaX -= SPEED * delta;
 //                this.setX(sprite.getX() - speed * delta); // Note: Setting all the values with a constant delta removes hitbox desyncing issues
                 direction = 3;
                 moving = true;
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-                deltaX += speed * delta;
+            if (right) {
+                deltaX += SPEED * delta;
 //                this.setX(sprite.getX() + speed * delta);
                 direction = 1;
                 moving = true;
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-                deltaY += speed * delta;
+            if (up) {
+                deltaY += SPEED * delta;
 //                this.setY(sprite.getY() + speed * delta);
                 direction = 0;
                 moving = true;
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-                deltaY -= speed * delta;
+            if (down) {
+                deltaY -= SPEED * delta;
 //                this.setY(sprite.getY() - speed * delta);
                 direction = 2;
                 moving = true;

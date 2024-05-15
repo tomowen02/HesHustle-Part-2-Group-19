@@ -33,18 +33,18 @@ public class EventManager {
         this.gameScreen = gameScreen;
 
         // Define what to say when interacting with an object whose text won't change
-        objectInteractions = new HashMap<String, Event>();
-        objectInteractions.put("chest", new Event("chest", "Open the chest?", 0));
-        objectInteractions.put("comp_sci", new Event("comp_sci", "Would you like to study?", 20));
-        objectInteractions.put("chat", new Event("chat", "Would you like to chat to your friends?", 10));
-        objectInteractions.put("basketball", new Event("basketball", "Would you like to play basketball?", 20));
-        objectInteractions.put("eat", new Event("eat", "Would you like to eat?", 10));
-        objectInteractions.put("accomodation", new Event("accomodation", "Go to sleep for the night?\nYour alarm is set for 8am.", 0));
-        objectInteractions.put("rch", new Event("rch", "Would you like to study in the Ron Cook Hub?", 10)); // Changes, dynamically returned in getObjectInteraction
-        objectInteractions.put("tree", new Event("tree", "Speak to the tree?", 5));
-        objectInteractions.put("teleport", new Event("teleport", "Would you like to move location?", 0));
-        objectInteractions.put("ducks", new Event("ducks", "Would you like to feed the ducks?", 10));
-        objectInteractions.put("cook", new Event("cook", "Would you like to cook?", 30));
+        events = new HashMap<String, Event>();
+        events.put("chest", new Event("chest", "Open the chest?", 0));
+        events.put("comp_sci", new Event("comp_sci", "Would you like to study?", 20));
+        events.put("chat", new Event("chat", "Would you like to chat to your friends?", 10));
+        events.put("basketball", new Event("basketball", "Would you like to play basketball?", 20));
+        events.put("eat", new Event("eat", "Would you like to eat?", 10));
+        events.put("accomodation", new Event("accomodation", "Go to sleep for the night?\nYour alarm is set for 8am.", 0));
+        events.put("rch", new Event("rch", "Would you like to study in the Ron Cook Hub?", 10)); // Changes, dynamically returned in getObjectInteraction
+        events.put("tree", new Event("tree", "Speak to the tree?", 5));
+        events.put("teleport", new Event("teleport", "Would you like to move location?", 0));
+        events.put("ducks", new Event("ducks", "Would you like to feed the ducks?", 10));
+        events.put("cook", new Event("cook", "Would you like to cook?", 30));
 
         // Some random topics that can be chatted about
         String[] topics = {"Dogs", "Cats", "Exams", "Celebrities", "Flatmates", "Video games", "Sports", "Food", "Fashion"};
