@@ -31,7 +31,7 @@ import java.util.Collection;
  */
 public class GameScreen implements Screen {
     final HustleGame game;
-    private OrthographicCamera camera;
+    private final OrthographicCamera camera;
     private int energy = 100;
     private int hoursStudied, hoursRecreational, hoursSlept;
     private float daySeconds = 0; // Current seconds elapsed in day
@@ -43,14 +43,12 @@ public class GameScreen implements Screen {
     private Label timeLabel, dayLabel;
     public Player player;
     private Window escapeMenu;
-    private Viewport viewport;
+    private final Viewport viewport;
     public Stage uiStage;
-    private Label interactionLabel;
-    private EventManager eventManager;
-//    private OptionDialogue optionDialogue;
+    private final Label interactionLabel;
+    private final EventManager eventManager;
     protected InputMultiplexer inputMultiplexer;
-    private Table uiTable;
-    private Image energyBar;
+    private final Image energyBar;
     public DialogueBox dialogueBox;
     public final Image blackScreen;
     private boolean sleeping = false;
@@ -59,6 +57,7 @@ public class GameScreen implements Screen {
     public static String BLACK_SQUARE_PATH = "Sprites/black_square.png";
     public static String ENERGY_BAR_PATH = "Interface/Energy Bar/green_bar.png";
     public static String ENERGY_BAR_OUTLINE_PATH = "Interface/Energy Bar/bar_outline.png";
+    public static String MAP_PATH = "MapAssetsV2/Maps/Accomodation.tmx";
 
     /**
      *
@@ -92,7 +91,7 @@ public class GameScreen implements Screen {
         blackScreen.addAction(Actions.alpha(0f));
 
         // UI table to put everything in
-        uiTable = new Table();
+        Table uiTable = new Table();
         uiTable.setSize(game.WIDTH, game.HEIGHT);
         uiStage.addActor(uiTable);
 
@@ -181,7 +180,7 @@ public class GameScreen implements Screen {
 
         //		mapManager.loadMap("East Campus/east_campus.tmx");
 //		mapManager.loadMap("MapAssetsV2/Maps/CSBuilding.tmx");
-        mapManager.loadMap("MapAssetsV2/Maps/Accomodation.tmx");
+        mapManager.loadMap(MAP_PATH);
 
         // Set the player to the middle of the map
         player.setPos(mapManager.getMapDimensions().x / 2f, mapManager.getMapDimensions().y / 2f);
@@ -258,11 +257,7 @@ public class GameScreen implements Screen {
         timeLabel.setText(formatTime((int) daySeconds));
 
         // Freeze the player's movement for this frame if any menus are visible
-        if (escapeMenu.isVisible() || dialogueBox.isVisible() || sleeping) {
-            player.setFrozen(true);
-        } else {
-            player.setFrozen(false);
-        }
+        player.setFrozen(escapeMenu.isVisible() || dialogueBox.isVisible() || sleeping);
 
         dialogueBox.scrollText(0.8f);
 
@@ -371,8 +366,8 @@ public class GameScreen implements Screen {
         // escapeMenu.setDebug(true);
 
         // Centre
-        escapeMenu.setX((game.WIDTH / 2) - (escapeMenu.getWidth() / 2));
-        escapeMenu.setY((game.HEIGHT / 2) - (escapeMenu.getHeight() / 2));
+        escapeMenu.setX((game.WIDTH / 2f) - (escapeMenu.getWidth() / 2));
+        escapeMenu.setY((game.HEIGHT / 2f) - (escapeMenu.getHeight() / 2));
 
 
         // Create button listeners
@@ -565,11 +560,11 @@ public class GameScreen implements Screen {
                                 // Show a dialogue menu asking if they want to do an interaction with the object
                                 dialogueBox.show();
                                 String[] options = new String[]{"Yes", "No"};
-                                String[] events = new String[]{(String) closetObject.getEvent(), "exit"};
-                                String[] params = new String[]{(String) closetObject.getParams(), ""};
+                                String[] events = new String[]{closetObject.getEvent(), "exit"};
+                                String[] params = new String[]{closetObject.getParams(), ""};
                                 dialogueBox.getSelectBox().setOptions(options, events, params);
-                                if (eventManager.hasCustomObjectInteraction((String) closetObject.getEvent())) {
-                                    dialogueBox.setText(eventManager.getObjectInteraction((String) closetObject.getEvent()));
+                                if (eventManager.hasCustomObjectInteraction(closetObject.getEvent())) {
+                                    dialogueBox.setText(eventManager.getObjectInteraction(closetObject.getEvent()));
                                 } else {
                                     dialogueBox.setText("Interact with " + closetObject.getEvent() + "?");
                                 }
@@ -731,7 +726,7 @@ public class GameScreen implements Screen {
 
     private Vector2 getViewportSize() {
         float viewportScalar = mapManager.getViewportScalar();
-        return new Vector2((game.WIDTH/2)*viewportScalar, (game.HEIGHT/2)*viewportScalar);
+        return new Vector2((game.WIDTH/2f)*viewportScalar, (game.HEIGHT/2f)*viewportScalar);
     }
 
     public int getDay() {

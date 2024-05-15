@@ -7,13 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.skloch.game.Leaderboard;
 
-import javax.swing.text.View;
-
 public class LeaderboardWindow {
-    Window window;
-    Skin skin;
-    Viewport viewport;
-    Leaderboard leaderboard;
+    private final Window window;
+    private final Skin skin;
+    private final Viewport viewport;
+    private final Leaderboard leaderboard;
 
 
     public LeaderboardWindow(Leaderboard leaderboard, Stage parentStage, Skin skin, Viewport viewport) {

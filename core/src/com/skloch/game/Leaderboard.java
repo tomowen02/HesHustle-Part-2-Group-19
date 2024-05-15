@@ -35,6 +35,7 @@ public class Leaderboard {
     private String FILENAME = "leaderboard.json";
     private List<LeaderboardEntry> leaderboardData;
     private int maxEntries;
+    private boolean isTest;
 
     // Inner class to represent a single entry in the leaderboard
     private static class LeaderboardEntry {
@@ -44,6 +45,12 @@ public class Leaderboard {
 
     public Leaderboard() {
         // Load the leaderboard from a JSON file
+        loadLeaderboard();
+    }
+
+    public Leaderboard(boolean isTest) {
+        // Load the leaderboard from a JSON file
+        this.isTest = isTest;;
         loadLeaderboard();
     }
 
@@ -100,8 +107,13 @@ public class Leaderboard {
     // Method to load the leaderboard from a JSON file
     private void loadLeaderboard() {
         // Load the JSON file. If it doesn't exist, create a new one with default values
+        if (isTest) {
+            FILENAME = "leaderboard_test.json";
+        }
         FileHandle file = Gdx.files.local(FILENAME);
-        if (!file.exists()) {
+        if (!file.exists() || isTest) {
+            // Create a new leaderboard
+            // If we are running the tests, we want to start from a fresh leaderboard each time
             leaderboardData = new ArrayList<>();
             maxEntries = 10;
             saveLeaderboard();
@@ -148,7 +160,10 @@ public class Leaderboard {
 
         // Write the JSON object to the file
         FileHandle file = Gdx.files.local(FILENAME);
-        System.out.println(jsonData);
         file.writeString(jsonData.toString(), false);
+    }
+
+    public int GetMaxEntries() {
+        return maxEntries;
     }
 }

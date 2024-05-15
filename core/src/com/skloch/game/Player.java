@@ -1,6 +1,5 @@
 package com.skloch.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -18,19 +17,25 @@ import java.util.List;
  */
 public class Player {
     // Hitboxes
-    public Rectangle sprite, feet, eventHitbox;
-    public float centreX, centreY;
+    public Rectangle sprite;
+    public Rectangle feet;
+    public Rectangle eventHitbox;
+    public float centreX;
+    public float centreY;
     public int direction = 2; // 0 = up, 1 = right, 2 = down, 3 = left (like a clock)
     private TextureRegion currentFrame;
     private float stateTime = 0;
-    private final Array<Animation<TextureRegion>> walkingAnimation, idleAnimation;
+    private final Array<Animation<TextureRegion>> walkingAnimation;
+    private final Array<Animation<TextureRegion>> idleAnimation;
     // Stats
-    public float speed = 500f;
-    public List<GameObject> collidables, interactables;
+    public float speed = 550f;
+    public List<GameObject> collidables;
+    public List<GameObject> interactables;
     public int scale = 4;
     private Rectangle bounds;
     private GameObject closestObject;
-    public boolean frozen, moving;
+    public boolean frozen;
+    public boolean moving;
 
     public static String SPRITE_ATLAS_PATH = "Sprites/Player/player_sprites.atlas";
 
@@ -52,16 +57,16 @@ public class Player {
 
         // Load walking animation from Sprite atlas
         walkingAnimation.add(
-                new Animation<TextureRegion>(0.25f, playerAtlas.findRegions(avatar + "_walk_back"), Animation.PlayMode.LOOP),
-                new Animation<TextureRegion>(0.25f, playerAtlas.findRegions(avatar + "_walk_right"), Animation.PlayMode.LOOP),
-                new Animation<TextureRegion>(0.25f, playerAtlas.findRegions(avatar + "_walk_front"), Animation.PlayMode.LOOP),
-                new Animation<TextureRegion>(0.25f, playerAtlas.findRegions(avatar + "_walk_left"), Animation.PlayMode.LOOP));
+                new Animation<>(0.25f, playerAtlas.findRegions(avatar + "_walk_back"), Animation.PlayMode.LOOP),
+                new Animation<>(0.25f, playerAtlas.findRegions(avatar + "_walk_right"), Animation.PlayMode.LOOP),
+                new Animation<>(0.25f, playerAtlas.findRegions(avatar + "_walk_front"), Animation.PlayMode.LOOP),
+                new Animation<>(0.25f, playerAtlas.findRegions(avatar + "_walk_left"), Animation.PlayMode.LOOP));
         // Load idle animation
         idleAnimation.add(
-                new Animation<TextureRegion>(0.40f, playerAtlas.findRegions(avatar + "_idle_back"), Animation.PlayMode.LOOP),
-                new Animation<TextureRegion>(0.40f, playerAtlas.findRegions(avatar + "_idle_right"), Animation.PlayMode.LOOP),
-                new Animation<TextureRegion>(0.40f, playerAtlas.findRegions(avatar + "_idle_front"), Animation.PlayMode.LOOP),
-                new Animation<TextureRegion>(0.40f, playerAtlas.findRegions(avatar + "_idle_left"), Animation.PlayMode.LOOP)
+                new Animation<>(0.40f, playerAtlas.findRegions(avatar + "_idle_back"), Animation.PlayMode.LOOP),
+                new Animation<>(0.40f, playerAtlas.findRegions(avatar + "_idle_right"), Animation.PlayMode.LOOP),
+                new Animation<>(0.40f, playerAtlas.findRegions(avatar + "_idle_front"), Animation.PlayMode.LOOP),
+                new Animation<>(0.40f, playerAtlas.findRegions(avatar + "_idle_left"), Animation.PlayMode.LOOP)
         );
 
         collidables = new ArrayList<GameObject>() {};
@@ -87,7 +92,7 @@ public class Player {
 
     /**
      * Handles all the logic involved in moving the player given keyboard inputs
-     * If the player encounters an object, they will not be alowed to move into the space, but will attempt to
+     * If the player encounters an object, they will not be allowed to move into the space, but will attempt to
      * 'slide' off of it.
      * Also updates the player's animation
      *
@@ -111,7 +116,6 @@ public class Player {
         // If not frozen, react to keyboard input presses
         if (!frozen) {
             // Move the player and their 2 other hitboxes
-            moving = false;
             float deltaX = 0;
             float deltaY = 0;
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -368,7 +372,7 @@ public class Player {
     }
 
     /**
-     * Returns the euclidian distance from a GameObject to the centre of the player
+     * Returns the euclidean distance from a GameObject to the centre of the player
      *
      * @param object The object to get the distance from
      * @return The distance from the object

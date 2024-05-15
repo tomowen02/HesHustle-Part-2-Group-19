@@ -22,13 +22,16 @@ public class HustleGame extends Game {
 	public int HEIGHT;
 	public Skin skin;
 	public Skin secondarySkin;
-	public String credits, tutorialText;
+	public String credits;
+	public String tutorialText;
 	public GameScreen gameScreen;
 	public MenuScreen menuScreen;
 	public ShapeRenderer shapeRenderer;
 	public SoundManager soundManager;
 	public Stage blueBackground;
-	public int[] backgroundLayers, foregroundLayers, objectLayers;
+	public int[] backgroundLayers;
+	public int[] foregroundLayers;
+	public int[] objectLayers;
 	public String playerName;
 
 	public Leaderboard leaderboard;

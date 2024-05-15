@@ -25,11 +25,11 @@ import java.util.Objects;
  * Currently doesn't calculate a score
  */
 public class GameOverScreen implements Screen {
-    private HustleGame game;
-    Stage gameOverStage;
-    Viewport viewport;
-    OrthographicCamera camera;
-    LeaderboardWindow leaderboard;
+    private final HustleGame game;
+    private final Stage gameOverStage;
+    private final Viewport viewport;
+    private final OrthographicCamera camera;
+    private final LeaderboardWindow leaderboard;
 
     /**
      * A screen to display a 'Game Over' screen when the player finishes their exams
@@ -128,13 +128,27 @@ public class GameOverScreen implements Screen {
                 game.setScreen(new MenuScreen(game));
             }
         });
-
+        
         gameOverWindow.pack();
         gameOverWindow.setSize(600, 600);
 
         // Centre the window
         gameOverWindow.setX((viewport.getWorldWidth() / 2) - (gameOverWindow.getWidth() / 2));
         gameOverWindow.setY((viewport.getWorldHeight() / 2) - (gameOverWindow.getHeight() / 2));
+    }
+
+    /**
+     * Displays an activity and associated value on a provided table.
+     * eg) "Hours Slept", 16
+     * @param scoresTable Table on which to display the activity.
+     * @param activityName Description of the activity.
+     * @param value Value associated with the activity.
+     */
+    private void addActivityToTable(Table scoresTable, String activityName, int value) {
+        scoresTable.add(new Label(activityName, game.skin, "interaction")).padBottom(5);
+        scoresTable.row();
+        scoresTable.add(new Label(String.valueOf(value), game.skin, "button")).padBottom(20);
+        scoresTable.row();
     }
 
 

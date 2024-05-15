@@ -5,20 +5,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Array;
-import java.util.Objects;
-import java.util.HashMap;
-
 /**
  * A class to display a dialogue box for text and options on the screen.
  *
  */
 public class DialogueBox {
-    private Window dialogueWindow;
-    private Table dialogueTable;
-    private Label textLabel;
-    private Skin skin;
+    private final Window dialogueWindow;
+    private final Label textLabel;
+    private final Skin skin;
     private final int MAXCHARS;
-    private SelectBox selectBox;
+    private final SelectBox selectBox;
     private Array<String> textLines;
     private int linePointer = 0;
     private String eventKey = null;
@@ -39,7 +35,7 @@ public class DialogueBox {
         dialogueWindow = new Window("", skin);
 
         // Create the table for the text in the dialogue box
-        dialogueTable = new Table();
+        Table dialogueTable = new Table();
         dialogueWindow.addActor(dialogueTable);
         dialogueTable.setFillParent(true);
 
@@ -60,16 +56,16 @@ public class DialogueBox {
     }
 
     /**
-     * A class displaying a little selction box to the user when an input is needed in dialog
+     * A class displaying a little selection box to the user when an input is needed in dialog
      */
     public class SelectBox {
-        private Window selectWindow;
-        private Table selectTable;
+        private final Window selectWindow;
+        private final Table selectTable;
         private int choiceIndex = 0;
         private String[] options;
         private String[] events;
         private String[] eventParams;
-        private Array<Label> optionPointers = new Array<Label>();
+        private final Array<Label> optionPointers = new Array<>();
         public SelectBox () {
             selectWindow = new Window("", skin);
             selectTable = new Table();
@@ -247,7 +243,7 @@ public class DialogueBox {
 
     /**
      * Sets the text to be displayed on the dialogue box, automatically wraps it correctly
-     * @param text
+     * @param text Text to be displayed.
      */
     public void setText(String text) {
         initialiseLabelText(text);
@@ -267,7 +263,7 @@ public class DialogueBox {
     /**
      * Sets the text to be displayed on the dialogue box, automatically wraps it correctly
      * Additionally, schedules an event to be called after the text is done displaying
-     * @param text THe text to display
+     * @param text The text to display
      * @param eventKey The event key to be triggered
      */
     public void setText(String text, String eventKey, String eventParams) {
@@ -292,7 +288,7 @@ public class DialogueBox {
 
     /**
      * Formats the text to be displayed on a label widget. Adds a newline character every MAXCHARS num of characters
-     * accounts for any occuring linebreaks to take use of the size of the most space possible.
+     * accounts for any occurring linebreaks to take use of the size of the most space possible.
      * Stores the formatted text in 3 chunks, which are then queued up to be pushed to the label whenever the user
      * presses e.
      *
@@ -300,14 +296,14 @@ public class DialogueBox {
      */
     public void initialiseLabelText(String text) {
         // Add a newline every 36 chars
-        String newString = "";
+        StringBuilder newString = new StringBuilder();
         int lastSpace = 0;
         int index = 0;
         int totalIndex = 0;
 
         // Add newline characters where the length of a section between two linebreaks is greater than MAXCHARS
         for (char c : text.toCharArray()) {
-            // Account for any occuring linebreaks
+            // Account for any occurring linebreaks
             if (c == '\n') {
                 index = 0;
             }
@@ -315,24 +311,24 @@ public class DialogueBox {
             if (index >= MAXCHARS) {
                 // If the current line is a space, just add a newline instead of a space
                 if (c == ' ') {
-                    newString = newString + "\n";
+                    newString.append("\n");
                     totalIndex += 1;
                     index = 0;
                 } else {
                     // If not, Replace the last space with a linebreak and add the char
                     // If the last linebreak is 0 or greater than MAXCHARS away, just add a break now
                     if (lastSpace == 0 || (totalIndex - lastSpace) >= MAXCHARS) {
-                        newString = newString + "\n";
+                        newString.append("\n");
                         index = 0;
                     } else {
-                        newString = newString.substring(0, lastSpace) + "\n" + newString.substring(lastSpace+1);
-                        newString = newString + c;
+                        newString = new StringBuilder(newString.substring(0, lastSpace) + "\n" + newString.substring(lastSpace + 1));
+                        newString.append(c);
                         index = totalIndex - lastSpace;
                         totalIndex += 1;
                     }
                 }
             } else {
-                newString = newString + c;
+                newString.append(c);
                 if (c == ' ') {
                     lastSpace = totalIndex;
                 }
@@ -343,23 +339,23 @@ public class DialogueBox {
         }
 
         // Split the newString into chunks with 3 linebreaks
-        textLines = new Array<String>();
+        textLines = new Array<>();
         int numBreaks = 0;
-        String subString = "";
+        StringBuilder subString = new StringBuilder();
 
-        for (String s: newString.split("\n")) {
+        for (String s: newString.toString().split("\n")) {
             if (numBreaks == 2) {
-                subString += s;
-                textLines.add(subString);
-                subString = "";
+                subString.append(s);
+                textLines.add(subString.toString());
+                subString = new StringBuilder();
                 numBreaks = 0;
             } else {
-                subString += s + "\n";
+                subString.append(s).append("\n");
                 numBreaks += 1;
             }
         }
-        if (subString != "") {
-            textLines.add(subString);
+        if (!subString.toString().equals("")) {
+            textLines.add(subString.toString());
         }
 
         textLabel.setText(textLines.get(0));

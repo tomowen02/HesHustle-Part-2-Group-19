@@ -13,22 +13,18 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.skloch.game.HustleGame;
-import screens.CreditScreen;
-import screens.GameScreen;
-import screens.LeaderboardWindow;
-import screens.SettingsScreen;
 
 /**
  * A screen to display the game menu to the player has the buttons "Start", "Settings", "Credits, "Exit"
- * Also diaplays a tutorial window and an avatar select screen
+ * Also displays a tutorial window and an avatar select screen
  */
 public class MenuScreen implements Screen {
-    final HustleGame game;
-    private Stage menuStage;
-    OrthographicCamera camera;
-    private Viewport viewport;
-    private Image titleImage;
-    private LeaderboardWindow leaderboardWindow;
+    private final HustleGame game;
+    private final Stage menuStage;
+    private final OrthographicCamera camera;
+    private final Viewport viewport;
+    private final Image titleImage;
+    private final LeaderboardWindow leaderboardWindow;
 
     public static String TITLE_IMAGE_PATH = "title.png";
 

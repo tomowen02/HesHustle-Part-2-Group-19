@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -19,11 +18,10 @@ import com.skloch.game.HustleGame;
  * A screen to display settings to the player, lets the player adjust sound and music volume
  */
 public class SettingsScreen implements Screen {
-    private HustleGame game;
-    private Stage optionStage;
-    private OrthographicCamera camera;
-    private Viewport viewport;
-    private Window optionMenu;
+    private final HustleGame game;
+    private final Stage optionStage;
+    private final OrthographicCamera camera;
+    private final Viewport viewport;
     public Slider musicSlider;
     public Slider sfxSlider;
     public Screen previousScreen;
@@ -46,7 +44,7 @@ public class SettingsScreen implements Screen {
         camera.setToOrtho(false, game.WIDTH, game.HEIGHT);
 
         // Create the window
-        optionMenu = new Window("", game.skin);
+        Window optionMenu = new Window("", game.skin);
         optionStage.addActor(optionMenu);
         optionMenu.setModal(true);
 
