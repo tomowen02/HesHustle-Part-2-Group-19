@@ -185,6 +185,25 @@ public class PlayerTests {
         assertEquals("The player is not where it is expected to be when trying to move with no input",
                 player.getY(), 0, 0.0001);
     }
+    @Test
+    public void testPlayerMovementEdgeCases() {
+        // Move the player to the edge of a collision object
+        player.setPos(0,0);
+        collisionObject.setPosition(defaultFeetPos.x+feetWidth+movementMagnitude, defaultFeetPos.y);
+        player.move(false, true, false, false, delta); // Move right
+        assertEquals("The player is not where it is expected to be when trying to move to the edge of a collision object",
+                player.getX(), movementMagnitude, 0.0001);
+
+        // Move the player from inside a collision object to outside a collision object
+        player.setPos(0,0);
+        collisionObject.setPosition(defaultFeetPos.x-collisionObjectSize+movementMagnitude/2, defaultFeetPos.y); // Will move the object to a location where the player can step out of it to the right
+        player.move(false, true, false, false, delta); // Move right
+        assertEquals("The player is not where it is expected to be when trying to move from inside a collision object to outside",
+                player.getX(), movementMagnitude, 0.0001);
+    }
+
+    // Player interaction tests
+    // TODO
 
     @Test
     public void testSetGetPlayerPosition(){
