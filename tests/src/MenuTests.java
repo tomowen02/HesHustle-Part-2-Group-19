@@ -6,18 +6,18 @@ import screens.MenuScreen;
 
 import static org.mockito.Mockito.mock;
 
-@RunWith(GdxTestRunner.class)
+//@RunWith(GdxTestRunner.class)
 public class MenuTests {
-    private HustleGame game;
-    private MenuScreen menuScreen;
-    private CreditScreen creditScreen;
+//    private HustleGame game;
+//    private MenuScreen menuScreen;
+//    private CreditScreen creditScreen;
 
-    @Before
-    public void setUp() {
-        game = mock(HustleGame.class);
-        menuScreen = mock(MenuScreen.class);
-        creditScreen = mock(CreditScreen.class);
-    }
+//    @Before
+//    public void setUp() {
+//        game = mock(HustleGame.class);
+//        menuScreen = mock(MenuScreen.class);
+//        creditScreen = mock(CreditScreen.class);
+//    }
 
 
 }

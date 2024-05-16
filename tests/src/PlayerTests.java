@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 @RunWith(GdxTestRunner.class)
 public class PlayerTests {
@@ -201,10 +201,6 @@ public class PlayerTests {
         assertEquals("The player is not where it is expected to be when trying to move from inside a collision object to outside",
                 player.getX(), movementMagnitude, 0.0001);
     }
-
-    // Player interaction tests
-    // TODO
-
     @Test
     public void testSetGetPlayerPosition(){
         player.setPos(1,2);
@@ -214,4 +210,47 @@ public class PlayerTests {
                 player.getY(), 2, 0.0001);
     }
 
+    // Player interaction tests
+    @Test
+    public void testNearObject(){
+        player.setPos(0,0);
+        GameObject interactableObject = new GameObject(0,0, player.eventHitbox.getWidth(), player.eventHitbox.getHeight());
+        interactableObject.put("event", "test");
+        ArrayList<GameObject> interactableObjects = new ArrayList<>();
+        interactableObjects.add(interactableObject);
+        player.setInteractables(interactableObjects);
+
+        // Test that the player is able to detect an object that is within the hitbox
+        player.move(false, false, false, false, delta); // Updates the player's perception of objects
+        assertTrue("The player is not near an object when it is expected to be", player.nearObject());
+
+        // Test that the player is not able to detect an object that is outside the hitbox
+        interactableObject.setPosition(player.eventHitbox.getWidth()+1, 0);
+        player.move(false, false, false, false, delta); // Updates the player's perception of objects
+        assertFalse("The player is near an object when it is not expected to be", player.nearObject());
+    }
+
+    @Test
+    public void testClosestObject() {
+        player.setPos(0,0);
+        ArrayList<GameObject> interactableObjects = new ArrayList<>();
+        GameObject object1 = new GameObject(10,10, player.eventHitbox.getWidth(), player.eventHitbox.getHeight());
+        object1.put("event", "test");
+        interactableObjects.add(object1);
+        GameObject object2 = new GameObject(20,20, player.eventHitbox.getWidth(), player.eventHitbox.getHeight());
+        object2.put("event", "test");
+        interactableObjects.add(object2);
+        player.setInteractables(interactableObjects);
+
+        // Test that the closest object is returned
+        player.move(false, false, false, false, delta); // Updates the player's perception of objects
+        assertEquals("The closest object is not what is expected",
+                player.getClosestObject(), object1);
+
+        // Move the player closer to object2 and check that it is now the closest object
+        player.setPos(100, 100);
+        player.move(false, false, false, false, delta); // Updates the player's perception of objects
+        assertEquals("The closest object is not what is expected",
+                player.getClosestObject(), object2);
+    }
 }

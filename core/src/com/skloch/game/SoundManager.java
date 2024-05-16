@@ -57,6 +57,12 @@ public class SoundManager implements Disposable {
      * @param volume
      */
     public void setMusicVolume (float volume) {
+        if (volume > 100) {
+            volume = 100;
+        }
+        if (volume < 0) {
+            volume = 0;
+        }
         this.musicVolume = volume;
         overworldMusic.setVolume(musicVolume);
         menuMusic.setVolume(musicVolume);
@@ -67,6 +73,12 @@ public class SoundManager implements Disposable {
      * @param volume
      */
     public void setSfxVolume (float volume) {
+        if (volume > 100) {
+            volume = 100;
+        }
+        if (volume < 0) {
+            volume = 0;
+        }
         this.sfxVolume = volume;
     }
 
