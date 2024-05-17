@@ -177,9 +177,9 @@ public class PlayerTests {
                 player.getY(), 0, 0.0001);
     }
     @Test
-    public void testPlayerMoveNoInput(){
+    public void testPlayerMoveAllDirections(){
         player.setPos(0,0);
-        player.move(false, false, false, false, delta);
+        player.move(true, true, true, true, delta);
         assertEquals("The player is not where it is expected to be when trying to move with no input",
                 player.getX(), 0, 0.0001);
         assertEquals("The player is not where it is expected to be when trying to move with no input",
