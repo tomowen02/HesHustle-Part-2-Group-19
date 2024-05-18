@@ -257,8 +257,13 @@ public class DialogueBox {
         this.eventParams = "";
         scrollingText = true;
         textCounter = 0;
-
     }
+
+    public String getText() {
+        return textLabel.getText().toString();
+    }
+
+
 
     /**
      * Sets the text to be displayed on the dialogue box, automatically wraps it correctly

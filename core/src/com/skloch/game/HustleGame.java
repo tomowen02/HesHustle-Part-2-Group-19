@@ -117,7 +117,7 @@ public class HustleGame extends Game {
 	 * @param filepath The path to the text file
 	 * @return The contents of the file as a String
 	 */
-	public String readTextFile(String filepath) {
+	public static String readTextFile(String filepath) {
 		FileHandle file = Gdx.files.internal(filepath);
 
 		if (!file.exists()) {
