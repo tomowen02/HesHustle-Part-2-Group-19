@@ -71,4 +71,31 @@ public class AchievementTests {
         achievement.validate();
         assertFalse("The achievement's predicates are false but the achievement is achieved.", achievement.isAchieved());
     }
+
+    @Test
+    public void testExternalPredicate() {
+        class TestClass {
+            public int value = 1;
+        }
+
+        TestClass testClass = new TestClass();
+        Achievement achievement = new Achievement("name", "description", 0);
+        achievement.addPredicate(p -> testClass.value == 1);
+        achievement.validate();
+        assertTrue("Achievement does not correctly track captured value", achievement.isAchieved());
+
+        TestClass testClass1 = new TestClass();
+        Achievement achievement1 = new Achievement("name", "description", 0);
+        achievement1.addPredicate(p -> testClass1.value == 1);
+        testClass1.value = 2;
+        achievement1.validate();
+        assertFalse("Achievement does not correctly track captured value", achievement1.isAchieved());
+
+        TestClass testClass2 = new TestClass();
+        Achievement achievement2 = new Achievement("name", "description", 0);
+        achievement2.addPredicate(p -> testClass2.value == 2);
+        testClass2.value = 2;
+        achievement2.validate();
+        assertTrue("Achievement does not correctly track captured value", achievement2.isAchieved());
+    }
 }
