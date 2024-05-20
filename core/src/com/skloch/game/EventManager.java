@@ -224,7 +224,7 @@ public class EventManager {
      * @param args Arguments to be passed, should contain the hours the player wants to study. E.g. ["piazza", "1"]
      */
     public boolean chatEvent(String[] args) {
-        if (gameScreen.getSeconds() > 8*60) {
+        if (isDay()) {
             int energyCost = events.get("chat").getEnergyCost();
             // If the player is too tired to meet friends
             if (gameScreen.getEnergy() < energyCost) {
@@ -242,12 +242,12 @@ public class EventManager {
                 int hours = ThreadLocalRandom.current().nextInt(1, 4);
                 gameScreen.dialogueBox.setText(String.format("You talked about %s for %d hours!", args[0].toLowerCase(), hours));
                 gameScreen.decreaseEnergy(energyCost * hours);
-                gameScreen.passTime(hours * 60); // in seconds
+                gameScreen.passTime(hours * 60, false); // in seconds
                 gameScreen.addRecreationalHours(hours);
                 return true;
             }
         } else {
-            gameScreen.dialogueBox.setText("It's too early in the morning to meet your friends, go to bed!");
+            gameScreen.dialogueBox.setText("It's too late to meet your friends, go to bed!");
         }
 
         return false;
@@ -281,7 +281,7 @@ public class EventManager {
      * @return true if the event is successfully performed, false otherwise.
      */
     public boolean compSciEvent(String[] args) {
-        if (gameScreen.getSeconds() > 8*60) {
+        if (isDay()) {
             // If the player has already studied today and has used their 'catchup' session
             Event event = events.get("comp_sci");
             if (event.getTimesPerformedToday() > 0 && event.getTimesPerformedTotal() > gameScreen.getDay())
@@ -312,12 +312,12 @@ public class EventManager {
                     gameScreen.dialogueBox.setText(String.format("You studied for %s hours!\nYou lost %d energy", args[0], hours*energyCost));
                     gameScreen.decreaseEnergy(energyCost * hours);
                     gameScreen.addStudyHours(hours);
-                    gameScreen.passTime(hours * 60); // in seconds
+                    gameScreen.passTime(hours * 60, false); // in seconds
                     return true;
                 }
             }
         } else {
-            gameScreen.dialogueBox.setText("It's too early in the morning to study, go to bed!");
+            gameScreen.dialogueBox.setText("It's too late to study, go to bed!");
         }
 
         return false;
@@ -335,18 +335,18 @@ public class EventManager {
         if (args.length >= 1) {
             eventKey = args[0];
         }
-        if (gameScreen.getSeconds() > 8*60) {
+        if (isDay()) {
             int energyCost = events.get(eventKey).getEnergyCost();
             if (gameScreen.getEnergy() < energyCost) {
                 gameScreen.dialogueBox.setText("You are too tired to eat right now!");
             } else {
                 gameScreen.dialogueBox.setText(String.format("You took an hour to eat %s!\nYou lost %d energy!", gameScreen.getMeal(), energyCost));
                 gameScreen.decreaseEnergy(energyCost);
-                gameScreen.passTime(60); // in seconds
+                gameScreen.passTime(60, false); // in seconds
                 return true;
             }
         } else {
-            gameScreen.dialogueBox.setText("It's too early in the morning to eat food, go to bed!");
+            gameScreen.dialogueBox.setText("It's too late to eat food, go to bed!");
         }
 
         return false;
@@ -361,16 +361,17 @@ public class EventManager {
      * @return true if the event is successfully performed, false otherwise.
      */
     public boolean accomEvent(String[] args) {
-        gameScreen.setSleeping(true);
         gameScreen.dialogueBox.hide();
 
         // Calculate the hours slept to the nearest hour
         // Wakes the player up at 8am
         float secondsSlept;
-        if (gameScreen.getSeconds() < 60*8) {
+        if (isVeryEarly()) {
+            gameScreen.setSleeping(true);
             secondsSlept = (60*8 - gameScreen.getSeconds());
         } else {
             // Account for the wakeup time being in the next day
+            gameScreen.setSleeping(true);
             secondsSlept = (((60*8) + 1440) - gameScreen.getSeconds());
         }
         int hoursSlept = Math.round(secondsSlept / 60f);
@@ -382,12 +383,13 @@ public class EventManager {
                 gameScreen.dialogueBox.setText(String.format("You slept for %d hours!\nYou recovered %d energy!", hoursSlept, Math.min(100, hoursSlept*13)), "fadefromblack");
                 // Restore energy and pass time
                 gameScreen.setEnergy(hoursSlept*13);
-                gameScreen.passTime(secondsSlept);
+                gameScreen.passTime(secondsSlept, true);
                 gameScreen.addSleptHours(hoursSlept);
             }
         });
-
-        fadeToBlack(setTextAction);
+        if (!gameScreen.isTest) {
+            fadeToBlack(setTextAction);
+        }
         return true;
     }
 
@@ -415,56 +417,56 @@ public class EventManager {
     }
 
     public boolean ducksEvent(String[] args) {
-        if (gameScreen.getSeconds() > 8*60) {
+        if (isDay()) {
             int energyCost = events.get("ducks").getEnergyCost();
             if (gameScreen.getEnergy() < energyCost) {
                 gameScreen.dialogueBox.setText("You are too tired to feed the ducks right now!");
             } else {
                 gameScreen.dialogueBox.setText("You fed the ducks for an hour!\nYou lost "+energyCost+" energy!");
                 gameScreen.decreaseEnergy(energyCost);
-                gameScreen.passTime(60);
+                gameScreen.passTime(60, false);
                 gameScreen.addRecreationalHours(1);
                 return true;
             }
         } else {
-            gameScreen.dialogueBox.setText("It's too early in the morning to feed the ducks, the ducks are asleep!");
+            gameScreen.dialogueBox.setText("It's too late to feed the ducks, the ducks are asleep!");
         }
 
         return false;
     }
 
     public boolean basketballEvent(String[] args) {
-        if (gameScreen.getSeconds() > 8*60) {
+        if (isDay()) {
             int energyCost = events.get("basketball").getEnergyCost();
             if (gameScreen.getEnergy() < energyCost) {
                 gameScreen.dialogueBox.setText("You are too tired to play basketball right now!");
             } else {
                 gameScreen.dialogueBox.setText("You played for an hour!\nYou lost "+energyCost+" energy!");
                 gameScreen.decreaseEnergy(energyCost);
-                gameScreen.passTime(60);
+                gameScreen.passTime(60, false);
                 gameScreen.addRecreationalHours(1);
                 return true;
             }
         } else {
-            gameScreen.dialogueBox.setText("It's too early in the morning to play basketball!");
+            gameScreen.dialogueBox.setText("It's too late to play basketball!");
         }
 
         return false;
     }
 
     public boolean cookEvent(String[] args) {
-        if (gameScreen.getSeconds() > 8*60) {
+        if (isDay()) {
             int energyCost = events.get("cook").getEnergyCost();
             if (gameScreen.getEnergy() < energyCost) {
                 gameScreen.dialogueBox.setText("You are too tired to cook right now. You might burn the house down!");
             } else {
                 gameScreen.dialogueBox.setText(String.format("You took an hour to cook %s.\nYou lost %d energy!", gameScreen.getMeal(), energyCost));
                 gameScreen.decreaseEnergy(energyCost);
-                gameScreen.passTime(60); // in seconds
+                gameScreen.passTime(60, false); // in seconds
                 return true;
             }
         } else {
-            gameScreen.dialogueBox.setText("It's too early in the morning to cook a meal.");
+            gameScreen.dialogueBox.setText("It's too late to cook a meal - you might fall asleep!");
         }
 
         return false;
@@ -539,5 +541,18 @@ public class EventManager {
             }
         }
         return score;
+    }
+
+    private boolean isDay() {
+        // Daytime is between 7am and 9pm
+        return !isVeryEarly() && !isNight();
+    }
+
+    private boolean isVeryEarly() {
+        return gameScreen.getSeconds() < 7*60;
+    }
+
+    private boolean isNight() {
+        return gameScreen.getSeconds() > 21*60;
     }
 }

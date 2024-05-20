@@ -53,6 +53,7 @@ public class GameScreen implements Screen {
     public Image blackScreen;
     private boolean sleeping = false;
     public MapManager mapManager;
+    public final boolean isTest;
 
     public static String BLACK_SQUARE_PATH = "Sprites/black_square.png";
     public static String ENERGY_BAR_PATH = "Interface/Energy Bar/green_bar.png";
@@ -83,7 +84,9 @@ public class GameScreen implements Screen {
             player = new Player("avatar2");
         }
 
+        this.isTest = isTest;
         if (isTest) {
+            energyBar = new Image();
             return;
         }
         // Camera and viewport settings
@@ -237,7 +240,7 @@ public class GameScreen implements Screen {
 
         // Increment the time and possibly day
         if (!escapeMenu.isVisible() && !sleeping) {
-            passTime(Gdx.graphics.getDeltaTime());
+            passTime(Gdx.graphics.getDeltaTime()*10, false);
         }
         timeLabel.setText(formatTime((int) daySeconds));
 
@@ -469,9 +472,20 @@ public class GameScreen implements Screen {
      *
      * @param delta The time in seconds to add
      */
-    public void passTime(float delta) {
+    public void passTime(float delta, boolean advanceDay) {
         daySeconds += delta;
-        advanceDay();
+        while (daySeconds >= 1440) {
+            daySeconds -= 1440;
+        }
+        if (daySeconds > 180 && daySeconds < 420) {
+            // The time is after 3am but before 7am. Limit it to 3am
+            daySeconds = 180;
+        }
+        if (advanceDay){
+            advanceDay();
+
+        };
+
     }
 
     /**
@@ -498,12 +512,9 @@ public class GameScreen implements Screen {
     }
 
     private void advanceDay() {
-        while (daySeconds >= 1440) {
-            daySeconds -= 1440;
-            day += 1;
-            eventManager.advanceDay();
-            dayLabel.setText(String.format("Day %s", day));
-        }
+        day += 1;
+        eventManager.advanceDay();
+        dayLabel.setText(String.format("Day %s", day));
 
         if (day >= FINAL_DAY) {
             GameOver();
