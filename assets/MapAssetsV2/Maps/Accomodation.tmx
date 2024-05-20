@@ -111,7 +111,7 @@
  <objectgroup id="4" name="Collision">
   <object id="1" x="0" y="0" width="144" height="768"/>
   <object id="2" x="144" y="672" width="144" height="96"/>
-  <object id="3" x="212" y="634" width="16" height="38"/>
+  <object id="3" x="211" y="651" width="9" height="21"/>
   <object id="5" x="144" y="0" width="1392" height="192"/>
   <object id="6" x="1392" y="192" width="144" height="576"/>
   <object id="7" x="480.429" y="674.246" width="911.571" height="93.7541"/>
@@ -124,7 +124,7 @@
   <object id="28" x="1279.48" y="292.503" width="95.1084" height="95.1084"/>
   <object id="29" x="963.645" y="475.597" width="430.679" height="200.929"/>
   <object id="30" x="1060.55" y="439.652" width="177.655" height="26.9175"/>
-  <object id="31" x="780.606" y="628.555" width="23.3285" height="40.793"/>
+  <object id="31" x="780.606" y="646.555" width="23.3285" height="22.793"/>
   <object id="33" x="279.942" y="732.155" width="206.367" height="35.8899"/>
  </objectgroup>
  <objectgroup id="5" name="Interact">
