@@ -650,11 +650,7 @@
   <object id="35" x="3648" y="2256" width="192" height="144"/>
   <object id="36" x="3888" y="2304" width="144" height="96"/>
   <object id="38" x="3456" y="2256" width="624" height="48"/>
-  <object id="39" x="3936" y="2832" width="288" height="48"/>
-  <object id="40" x="3312" y="2832" width="336" height="48"/>
-  <object id="41" x="3168" y="2544" width="48" height="192"/>
   <object id="42" x="3120" y="2928" width="144" height="48"/>
-  <object id="43" x="4320" y="2544" width="48" height="192"/>
   <object id="44" x="4176" y="1488" width="48" height="144"/>
   <object id="45" x="4080" y="1464" width="96" height="264"/>
   <object id="46" x="4080" y="1844" width="96" height="268"/>
@@ -801,8 +797,6 @@
   <object id="258" x="2400" y="1104" width="672" height="48"/>
   <object id="259" x="5760" y="1584" width="144" height="96"/>
   <object id="260" x="5760" y="1968" width="144" height="96"/>
-  <object id="261" x="4200.01" y="2856.75" width="203.622" height="48" rotation="314.102"/>
-  <object id="262" x="3191.84" y="2709.21" width="171.713" height="48" rotation="41.6642"/>
   <object id="263" x="4878.37" y="2277.31" width="132.624" height="48" rotation="44.2514"/>
   <object id="264" x="5808" y="2352" width="132.624" height="48" rotation="318.306"/>
   <object id="265" x="1392" y="1968" width="768" height="96"/>
@@ -863,7 +857,7 @@
     <property name="event" value="park"/>
    </properties>
   </object>
-  <object id="249" x="3936" y="2544" width="288" height="240">
+  <object id="249" x="3899.64" y="2547.03" width="324.364" height="236.97">
    <properties>
     <property name="event" value="park"/>
    </properties>
