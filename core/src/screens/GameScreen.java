@@ -31,9 +31,9 @@ import java.util.Collection;
  */
 public class GameScreen implements Screen {
     final HustleGame game;
-    private final OrthographicCamera camera;
+    private OrthographicCamera camera;
     private int energy = 100;
-    private int hoursStudied, hoursRecreational, hoursSlept;
+    public int hoursStudied, hoursRecreational, hoursSlept;
     private float daySeconds = 0; // Current seconds elapsed in day
 
     private int score = 0;
@@ -43,16 +43,18 @@ public class GameScreen implements Screen {
     private Label timeLabel, dayLabel;
     public Player player;
     private Window escapeMenu;
-    private final Viewport viewport;
+    private Viewport viewport;
     public Stage uiStage;
-    private final Label interactionLabel;
+    private Label interactionLabel;
     private final EventManager eventManager;
     protected InputMultiplexer inputMultiplexer;
-    private final Image energyBar;
+    private Image energyBar;
     public DialogueBox dialogueBox;
-    public final Image blackScreen;
+    public Image blackScreen;
     private boolean sleeping = false;
     public MapManager mapManager;
+    public final boolean isTest;
+    public boolean gameover;
 
     public static String BLACK_SQUARE_PATH = "Sprites/black_square.png";
     public static String ENERGY_BAR_PATH = "Interface/Energy Bar/green_bar.png";
@@ -65,7 +67,7 @@ public class GameScreen implements Screen {
      *             initialised once.
      * @param avatarChoice Which avatar the player has picked, 0 for the more masculine avatar, 1 for the more feminine
      */
-    public GameScreen(final HustleGame game, int avatarChoice) {
+    public GameScreen(final HustleGame game, int avatarChoice, boolean isTest) {
         // Important game variables
         this.game = game;
         this.game.gameScreen = this;
@@ -76,7 +78,20 @@ public class GameScreen implements Screen {
         // Scores
         hoursStudied = hoursRecreational = hoursSlept = 0;
 
+        // Create a player class
+        if (avatarChoice == 1) {
+            player = new Player("avatar1");
+        } else {
+            player = new Player("avatar2");
+        }
 
+        gameover = false;
+
+        this.isTest = isTest;
+        if (isTest) {
+            energyBar = new Image();
+            return;
+        }
         // Camera and viewport settings
         camera = new OrthographicCamera();
         viewport = new FitViewport(getViewportSize().x, getViewportSize().y, camera);
@@ -94,30 +109,6 @@ public class GameScreen implements Screen {
         Table uiTable = new Table();
         uiTable.setSize(game.WIDTH, game.HEIGHT);
         uiStage.addActor(uiTable);
-
-
-
-        // Create a player class
-        if (avatarChoice == 1) {
-            player = new Player("avatar1");
-        } else {
-            player = new Player("avatar2");
-        }
-
-
-
-        // USER INTERFACE
-
-        // Create and center the yes/no box that appears when interacting with objects
-//        optionDialogue = new OptionDialogue("", 400, this.game.skin, game.soundManager);
-//        Window optWin = optionDialogue.getWindow();
-//        optionDialogue.setPos(
-//                (viewport.getWorldWidth() / 2f) - (optWin.getWidth() / 2f),
-//                (viewport.getWorldHeight() / 2f) - (optWin.getHeight() / 2f) - 150
-//        );
-//        // Use addActor to add windows to the scene
-//        uiTable.addActor(optionDialogue.getWindow());
-//        optionDialogue.setVisible(false);
 
         // Interaction label to prompt player
         interactionLabel = new Label("E - Interact", game.skin, "default");
@@ -252,7 +243,7 @@ public class GameScreen implements Screen {
 
         // Increment the time and possibly day
         if (!escapeMenu.isVisible() && !sleeping) {
-            passTime(Gdx.graphics.getDeltaTime());
+            passTime(Gdx.graphics.getDeltaTime()*10, false);
         }
         timeLabel.setText(formatTime((int) daySeconds));
 
@@ -484,9 +475,19 @@ public class GameScreen implements Screen {
      *
      * @param delta The time in seconds to add
      */
-    public void passTime(float delta) {
+    public void passTime(float delta, boolean advanceDay) {
         daySeconds += delta;
-        advanceDay();
+        while (daySeconds >= 1440) {
+            daySeconds -= 1440;
+        }
+        if (daySeconds > 180 && daySeconds < 420) {
+            // The time is after 3am but before 7am. Limit it to 3am
+            daySeconds = 180;
+        }
+        if (advanceDay){
+            advanceDay();
+        };
+
     }
 
     /**
@@ -513,13 +514,11 @@ public class GameScreen implements Screen {
     }
 
     private void advanceDay() {
-        while (daySeconds >= 1440) {
-            daySeconds -= 1440;
-            day += 1;
-            eventManager.advanceDay();
+        day += 1;
+        eventManager.advanceDay();
+        if (!isTest) {
             dayLabel.setText(String.format("Day %s", day));
         }
-
         if (day >= FINAL_DAY) {
             GameOver();
         }
@@ -722,6 +721,8 @@ public class GameScreen implements Screen {
      * Ends the game, called at the end of the 7th day, switches to a screen that displays a score
      */
     public void GameOver() {
+        gameover = true;
+        if (isTest) { return; }
         score += (hoursStudied + hoursRecreational + hoursSlept) * 100;
         score += eventManager.getAchievementScore();
         game.leaderboard.AddScore(game.playerName, score);

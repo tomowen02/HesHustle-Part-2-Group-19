@@ -361,7 +361,7 @@ public class MenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.soundManager.playButton();
-                GameScreen gameScreen = new GameScreen(game, 1);
+                GameScreen gameScreen = new GameScreen(game, 1, false);
                 game.setScreen(gameScreen);
                 game.soundManager.stopMenuMusic();
                 dispose();
@@ -372,7 +372,7 @@ public class MenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.soundManager.playButton();
-                game.setScreen(new GameScreen(game, 2));
+                game.setScreen(new GameScreen(game, 2, false));
                 game.soundManager.stopMenuMusic();
                 dispose();
             }
