@@ -95,6 +95,11 @@ public class DialogueTests {
         dialogueBox.getSelectBox().choiceUp();
         assertEquals("Choice index should decrease to 0",
                 "event1", dialogueBox.getSelectBox().getChoice());
+
+        // Check that increasing or decreasing the choice too far loops the selection back around
+        dialogueBox.getSelectBox().choiceUp();
+        assertEquals("Choice index should loop back to 1",
+                "event1", dialogueBox.getSelectBox().getChoice());
     }
 
 }
