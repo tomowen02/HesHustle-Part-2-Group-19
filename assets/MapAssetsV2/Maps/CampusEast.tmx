@@ -679,7 +679,7 @@
   <object id="77" x="5904" y="1872" width="48" height="432"/>
   <object id="78" x="5904" y="1104" width="48" height="576"/>
   <object id="79" x="4944" y="1104" width="48" height="576"/>
-  <object id="80" x="4992" y="1056" width="336" height="432"/>
+  <object id="80" x="4992" y="1056" width="336" height="495.636"/>
   <object id="84" x="5136" y="1488" width="192" height="192"/>
   <object id="88" x="5760" y="1344" width="144" height="96"/>
   <object id="89" x="5760" y="2208" width="144" height="96"/>
@@ -820,7 +820,7 @@
   <object id="278" x="2345.45" y="1969.7" width="42.4242" height="45.4545"/>
   <object id="279" x="2357.58" y="3736.36" width="100" height="93.9394"/>
  </objectgroup>
- <objectgroup id="10" name="Interact">
+ <objectgroup id="10" name="Interact" visible="0">
   <object id="163" x="4992" y="1488" width="144" height="98.485">
    <properties>
     <property name="event" value="teleport"/>
