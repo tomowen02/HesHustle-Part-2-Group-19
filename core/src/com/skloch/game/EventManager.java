@@ -91,28 +91,31 @@ public class EventManager {
         achievements.add(achievement);
     }
 
-    public void event (String eventKey, String params) {
+    public boolean event (String eventKey, String params) {
         String[] args;
         if (!params.isEmpty()) {
             args = params.split(";");
         } else {
             args = new String[0];
         }
+        boolean eventPerformed = false;
         // Important functions, most likely called after displaying text
         switch (eventKey) {
             case "fadefromblack":
                 fadeFromBlack();
+                eventPerformed = true;
                 break;
             case "fadetoblack":
                 fadeToBlack();
+                eventPerformed = true;
                 break;
             case "gameover":
                 gameScreen.GameOver();
+                eventPerformed = true;
                 break;
         }
 
         // Events related to objects
-        boolean eventPerformed = false;
         switch (eventKey) {
             case "tree":
                 eventPerformed = treeEvent();
@@ -158,6 +161,7 @@ public class EventManager {
         if (eventPerformed && events.containsKey(eventKey)) {
             events.get(eventKey).perform();
         }
+        return eventPerformed;
     }
 
     public void advanceDay() {
@@ -281,43 +285,44 @@ public class EventManager {
      * @return true if the event is successfully performed, false otherwise.
      */
     public boolean compSciEvent(String[] args) {
-        if (isDay()) {
-            // If the player has already studied today and has used their 'catchup' session
-            Event event = events.get("comp_sci");
-            if (event.getTimesPerformedToday() > 0 && event.getTimesPerformedTotal() > gameScreen.getDay())
-            {
-                gameScreen.dialogueBox.setText("You've already studied enough for one day...");
-                return false;
-            }
-
-            int energyCost = events.get("comp_sci").getEnergyCost();
-            // If the player is too tired for any studying:
-            if (gameScreen.getEnergy() < energyCost) {
-                gameScreen.dialogueBox.hideSelectBox();
-                gameScreen.dialogueBox.setText("You are too tired to study right now!");
-            } else if (args.length == 0) {
-                // If the player has not yet chosen how many hours, ask
-                gameScreen.dialogueBox.setText("Study for how long?");
-                String[] options = new String[] {"2 Hours (20)", "3 Hours (30)", "4 Hours (40)"};
-                String[] events = new String[] {"comp_sci", "comp_sci", "comp_sci"};
-                String[] params = new String[] {"2", "3", "4"};
-                gameScreen.dialogueBox.getSelectBox().setOptions(options, events, params);
-            } else {
-                int hours = Integer.parseInt(args[0]);
-                // If the player does not have enough energy for the selected hours
-                if (gameScreen.getEnergy() < hours*energyCost) {
-                    gameScreen.dialogueBox.setText("You don't have the energy to study for this long!");
-                } else {
-                    // If they do have the energy to study
-                    gameScreen.dialogueBox.setText(String.format("You studied for %s hours!\nYou lost %d energy", args[0], hours*energyCost));
-                    gameScreen.decreaseEnergy(energyCost * hours);
-                    gameScreen.addStudyHours(hours);
-                    gameScreen.passTime(hours * 60, false); // in seconds
-                    return true;
-                }
-            }
-        } else {
+        if (!isDay()) {
             gameScreen.dialogueBox.setText("It's too late to study, go to bed!");
+            return false;
+        }
+        // If the player has already studied today and has used their 'catchup' session
+        Event event = events.get("comp_sci");
+        if (event.getTimesPerformedToday() > 0 && event.getTimesPerformedTotal() > gameScreen.getDay())
+        {
+            gameScreen.dialogueBox.setText("You've already studied enough for one day...");
+            return false;
+        }
+
+        int energyCost = events.get("comp_sci").getEnergyCost();
+        // If the player is too tired for any studying:
+        if (gameScreen.getEnergy() < energyCost) {
+            gameScreen.dialogueBox.hideSelectBox();
+            gameScreen.dialogueBox.setText("You are too tired to study right now!");
+        } else if (args.length == 0) {
+            // If the player has not yet chosen how many hours, ask
+            gameScreen.dialogueBox.setText("Study for how long?");
+            String[] options = new String[] {"2 Hours (20)", "3 Hours (30)", "4 Hours (40)"};
+            String[] events = new String[] {"comp_sci", "comp_sci", "comp_sci"};
+            String[] params = new String[] {"2", "3", "4"};
+            gameScreen.dialogueBox.getSelectBox().setOptions(options, events, params);
+        } else {
+            // There is 1 param. This contains the number of hours that we want to study for
+            int hours = Integer.parseInt(args[0]);
+            // If the player does not have enough energy for the selected hours
+            if (gameScreen.getEnergy() < hours*energyCost) {
+                gameScreen.dialogueBox.setText("You don't have the energy to study for this long!");
+            } else {
+                // If they do have the energy to study
+                gameScreen.dialogueBox.setText(String.format("You studied for %s hours!\nYou lost %d energy", args[0], hours*energyCost));
+                gameScreen.decreaseEnergy(energyCost * hours);
+                gameScreen.addStudyHours(hours);
+                gameScreen.passTime(hours * 60, false); // in seconds
+                return true;
+            }
         }
 
         return false;
@@ -387,7 +392,9 @@ public class EventManager {
                 gameScreen.addSleptHours(hoursSlept);
             }
         });
-        if (!gameScreen.isTest) {
+        if (gameScreen.isTest) {
+            setTextAction.run();
+        } else {
             fadeToBlack(setTextAction);
         }
         return true;

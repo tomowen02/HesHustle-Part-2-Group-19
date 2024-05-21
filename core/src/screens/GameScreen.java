@@ -33,7 +33,7 @@ public class GameScreen implements Screen {
     final HustleGame game;
     private OrthographicCamera camera;
     private int energy = 100;
-    private int hoursStudied, hoursRecreational, hoursSlept;
+    public int hoursStudied, hoursRecreational, hoursSlept;
     private float daySeconds = 0; // Current seconds elapsed in day
 
     private int score = 0;
@@ -54,6 +54,7 @@ public class GameScreen implements Screen {
     private boolean sleeping = false;
     public MapManager mapManager;
     public final boolean isTest;
+    public boolean gameover;
 
     public static String BLACK_SQUARE_PATH = "Sprites/black_square.png";
     public static String ENERGY_BAR_PATH = "Interface/Energy Bar/green_bar.png";
@@ -83,6 +84,8 @@ public class GameScreen implements Screen {
         } else {
             player = new Player("avatar2");
         }
+
+        gameover = false;
 
         this.isTest = isTest;
         if (isTest) {
@@ -483,7 +486,6 @@ public class GameScreen implements Screen {
         }
         if (advanceDay){
             advanceDay();
-
         };
 
     }
@@ -514,8 +516,9 @@ public class GameScreen implements Screen {
     private void advanceDay() {
         day += 1;
         eventManager.advanceDay();
-        dayLabel.setText(String.format("Day %s", day));
-
+        if (!isTest) {
+            dayLabel.setText(String.format("Day %s", day));
+        }
         if (day >= FINAL_DAY) {
             GameOver();
         }
@@ -718,6 +721,8 @@ public class GameScreen implements Screen {
      * Ends the game, called at the end of the 7th day, switches to a screen that displays a score
      */
     public void GameOver() {
+        gameover = true;
+        if (isTest) { return; }
         score += (hoursStudied + hoursRecreational + hoursSlept) * 100;
         score += eventManager.getAchievementScore();
         game.leaderboard.AddScore(game.playerName, score);
