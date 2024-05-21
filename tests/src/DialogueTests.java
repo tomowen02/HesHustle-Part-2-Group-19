@@ -96,10 +96,13 @@ public class DialogueTests {
         assertEquals("Choice index should decrease to 0",
                 "event1", dialogueBox.getSelectBox().getChoice());
 
-        // Check that increasing or decreasing the choice too far loops the selection back around
+        // Check that increasing or decreasing the choice too far, limit the choice to the bounds of the options
         dialogueBox.getSelectBox().choiceUp();
-        assertEquals("Choice index should loop back to 1",
+        assertEquals("Decreasing the choice too far should be limited to the first option",
                 "event1", dialogueBox.getSelectBox().getChoice());
+        dialogueBox.getSelectBox().choiceDown();
+        assertEquals("Increasing the choice too far should be limited to the last option",
+                "event2", dialogueBox.getSelectBox().getChoice());
     }
 
 }
