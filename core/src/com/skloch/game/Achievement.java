@@ -3,6 +3,7 @@ package com.skloch.game;
 import java.util.HashMap;
 import java.util.function.Predicate;
 
+// This class is new in part 2 of the assessment
 
 /**
  * Tracks an Event-based achievement based on a set of predicates.

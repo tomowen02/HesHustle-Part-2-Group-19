@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.skloch.game.Leaderboard;
 
+// This class is new in part 2 of the assessment
+
 public class LeaderboardWindow {
     private final Window window;
     private final Skin skin;

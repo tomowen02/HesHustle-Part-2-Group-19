@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+// This class is new in part 2 of the assessment
+
 public class MapManager {
 
     private final TmxMapLoader mapLoader;

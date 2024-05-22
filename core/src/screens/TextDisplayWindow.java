@@ -8,6 +8,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Collection;
 
+// This class is new in part 2 of the assessment
+
 public class TextDisplayWindow {
     private final Window window;
     private final Skin skin;

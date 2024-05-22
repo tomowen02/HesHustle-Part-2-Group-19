@@ -1,5 +1,7 @@
 package com.skloch.game;
 
+// This class is new in part 2 of the assessment
+
 /**
  * An in-game event that can be performed by the player. Tracks statistics such as the total number of times performed,
  * the total times performed today, and the number of consecutive days performed. Defines the energy cost of the event.

@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+// This class is new in part 2 of the assessment
+
 public class Leaderboard {
     /*
     Structure of the leaderboard JSON file:
