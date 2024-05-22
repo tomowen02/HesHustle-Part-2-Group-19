@@ -36,6 +36,12 @@ public class LeaderboardTests {
     @Test
     public void setAndGetEntryInfo() {
         Leaderboard leaderboard = new Leaderboard(true);
+
+        // Get the formatted leaderboard when no scores have been added
+        String emptyLeaderboardText = leaderboard.GetLeaderboardText();
+        assertTrue("The leaderboard text was not generated correctly when no scores were added",
+                emptyLeaderboardText.contains("empty"));
+
         leaderboard.AddScore("Test", 3);
 
         // Get the name of player

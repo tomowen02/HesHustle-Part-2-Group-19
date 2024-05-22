@@ -72,6 +72,10 @@ public class Leaderboard {
 
     public String GetLeaderboardText() {
         StringBuilder leaderboardText = new StringBuilder();
+        if (leaderboardData.isEmpty()) {
+            leaderboardText.append("The leaderboard is empty. Play the game!\n");
+            return leaderboardText.toString();
+        }
         for (int i = 0; i < leaderboardData.size(); i++) {
             leaderboardText.append(i + 1).append(". ").append(leaderboardData.get(i).name).append(": ").append(leaderboardData.get(i).score).append("\n");
         }
