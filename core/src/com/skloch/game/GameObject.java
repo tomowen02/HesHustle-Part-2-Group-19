@@ -1,5 +1,7 @@
 package com.skloch.game;
 
+// This class contains minor changes for assessment 2
+
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -9,13 +11,8 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public class GameObject extends Rectangle {
     public MapProperties properties;
-
     public float centreX;
-
     public float centreY;
-
-
-
     // Create like a normal rectangle
 
     /**

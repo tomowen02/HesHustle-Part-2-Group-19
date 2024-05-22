@@ -1,5 +1,7 @@
 package com.skloch.game;
 
+// This class has been changed only to add new assets for assessment 2
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;

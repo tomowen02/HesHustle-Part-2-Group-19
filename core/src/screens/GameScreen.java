@@ -1,5 +1,8 @@
 package screens;
 
+// This class contains code style and logic changes for assessment 2
+// It now uses the new MapManager class to encapsulate the map renderer
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -33,7 +36,9 @@ public class GameScreen implements Screen {
     final HustleGame game;
     private OrthographicCamera camera;
     private int energy = 100;
-    public int hoursStudied, hoursRecreational, hoursSlept;
+    public int hoursStudied;
+    public int hoursRecreational;
+    public int hoursSlept;
     private float daySeconds = 0; // Current seconds elapsed in day
 
     private int score = 0;
@@ -514,6 +519,7 @@ public class GameScreen implements Screen {
     }
 
     private void advanceDay() {
+        // This method is new for assessment 2
         day += 1;
         eventManager.advanceDay();
         if (!isTest) {
@@ -728,6 +734,8 @@ public class GameScreen implements Screen {
         game.leaderboard.AddScore(game.playerName, score);
         game.setScreen(new GameOverScreen(game, hoursStudied, hoursRecreational, hoursSlept));
     }
+
+    // The following convenience methods are new for assessment 2
 
     private Vector2 getViewportSize() {
         float viewportScalar = mapManager.getViewportScalar();

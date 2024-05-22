@@ -1,5 +1,7 @@
 package com.skloch.game;
 
+// This class contains only code style changes for part 2 of the assessment
+
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;

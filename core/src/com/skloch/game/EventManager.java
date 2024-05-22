@@ -1,5 +1,7 @@
 package com.skloch.game;
 
+// This class contains style and logic changes for part 2 of the assessment
+
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.utils.Array;
@@ -31,6 +33,8 @@ public class EventManager {
      */
     public EventManager (GameScreen gameScreen) {
         this.gameScreen = gameScreen;
+
+        // This code is changed to incorporate the new Event and Achievement classes for assessment 2
 
         // Define what to say when interacting with an object whose text won't change
         events = new HashMap<String, Event>();
@@ -98,6 +102,9 @@ public class EventManager {
         } else {
             args = new String[0];
         }
+
+        // This code is slightly changed for assessment 2
+
         boolean eventPerformed = false;
         // Important functions, most likely called after displaying text
         switch (eventKey) {
@@ -165,6 +172,9 @@ public class EventManager {
     }
 
     public void advanceDay() {
+
+        // This method is new logic for assessment 2
+
         for (Achievement achievement : achievements)
         {
             if (!achievement.isAchieved()) {
@@ -220,6 +230,10 @@ public class EventManager {
         gameScreen.dialogueBox.hideSelectBox();
         gameScreen.dialogueBox.setText("This is a " +  object + "!");
     }
+
+    // The following event methods have been changed for assessment 2
+    // Some have had logic changed or added for the new Event and Achievement functionality
+    // Some are new
 
     /**
      * Lets the player study at the piazza for x num of hours, decreases the player's energy and increments the

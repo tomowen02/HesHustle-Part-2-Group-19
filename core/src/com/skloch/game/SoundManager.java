@@ -1,5 +1,7 @@
 package com.skloch.game;
 
+// This class contains style changes for assessment 2
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;

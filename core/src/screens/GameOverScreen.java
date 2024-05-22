@@ -1,5 +1,7 @@
 package screens;
 
+// This class contains some new code for assessment 2
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -49,6 +51,9 @@ public class GameOverScreen implements Screen {
         camera = new OrthographicCamera();
         viewport = new FitViewport(game.WIDTH, game.HEIGHT, camera);
         camera.setToOrtho(false, game.WIDTH, game.HEIGHT);
+
+        // This code has been modified for assessment 2
+        // The game over menu now has a number of buttons for showing stats, achievements, and the leaderboard
 
         leaderboard = new LeaderboardWindow(game.leaderboard, gameOverStage, game.skin, viewport);
 

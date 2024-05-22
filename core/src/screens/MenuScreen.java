@@ -1,5 +1,7 @@
 package screens;
 
+// This class has logic changes for assessment part 2
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -84,6 +86,7 @@ public class MenuScreen implements Screen {
         buttonTable.setWidth(600);
         menuStage.addActor(buttonTable);
 
+        // This code has been extended for assessment 2
 
         // Create the buttons
         TextButton startButton = new TextButton("New Game", game.skin);
@@ -297,6 +300,7 @@ public class MenuScreen implements Screen {
      * @return A table containing UI elements
      */
     public Table makeNameSelectTable (Table nextTable) {
+        // This code is new for assessment 2
         Table table = new Table();
         table.setFillParent(true);
         table.top();
