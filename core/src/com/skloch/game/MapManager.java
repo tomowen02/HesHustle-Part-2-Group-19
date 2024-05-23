@@ -13,8 +13,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MapManager {
 
+/**
+ * The MapManager class is responsible for loading and managing the maps in the game.
+ * Maps are loaded and cached using lazy loading
+ */
+public class MapManager {
     private final TmxMapLoader mapLoader;
     private final HashMap<String, TiledMap> loadedMaps;
     private TiledMap currentMap;
@@ -27,12 +31,22 @@ public class MapManager {
     private Float viewportScalar;
     private GameScreen game;
 
+    /**
+     * @param game The GameScreen object that the map is being loaded for
+     */
     public MapManager(GameScreen game) {
         mapLoader = new TmxMapLoader();
         loadedMaps = new HashMap<>();
         this.game = game;
     }
 
+    /** Load a map from a file path
+     * If the map has already been loaded, return the cached map
+     * Otherwise, load the map and cache it
+     * @param mapPath The file path for the map to be loaded
+     * @return The loaded map
+     * @throws RuntimeException if the map fails to load
+     */
     public TiledMap loadMap(String mapPath) {
         TiledMap map = null;
         try {
@@ -59,19 +73,18 @@ public class MapManager {
         return map;
     }
 
-    public TiledMap getCurrentMap() {
-        if (currentMap == null) {
-            throw new RuntimeException("No map loaded yet");
-        }
-        return currentMap;
-    }
-
+    /**
+     * @return The dimensions of the map in map units
+     */
     public Vector2 getMapDimensions() {
         float width = mapProperties.get("width", Integer.class);
         float height = mapProperties.get("height", Integer.class);
         return new Vector2(width, height);
     }
 
+    /**
+     * @return The dimensions of the map in pixels
+     */
     public Vector2 getMapPixelDimensions() {
         Vector2 mapUnitDimensions = getMapDimensions();
         float tileWidth = mapProperties.get("tilewidth", Integer.class);
@@ -81,18 +94,29 @@ public class MapManager {
         );
     }
 
+    /** Get all the objects on the collision layer
+     * @return The objects on the collision layer
+     */
     public List<GameObject> getCollisionObjects() {
         int[] layers = new int[]{collisionLayer};
         List<GameObject> collisionObjects = getObjectsFromLayers(layers);
         return collisionObjects;
     }
 
+    /**
+     * @return The objects on the interact layer
+     */
     public List<GameObject> getInteractObjects() {
         int[] layers = new int[]{interactLayer};
         List<GameObject> collisionObjects = getObjectsFromLayers(layers);
         return collisionObjects;
     }
 
+    /** Retrieve the spawn point for the player from the Tiled map
+     * The spawn point is an object on the interact layer with the boolean property "spawn"
+     * The coordinates of this object are the spawn point for the player
+     * @return The spawn point for the player
+     */
     public Vector2 getSpawn() {
         int[] layers = new int[]{interactLayer};
         List<GameObject> collisionObjects = getObjectsFromLayers(layers);
@@ -145,6 +169,10 @@ public class MapManager {
         }
     }
 
+    /**
+     * @param key The key of the property in the map e.g. foregroundLayers, backgroundLayers
+     * @return An array of integers representing the layers indexes
+     */
     private int[] getLayerArrayFromMapProperties(String key) {
         // The map should have a property called for example "backgroundLayers" which is a comma separated list of integers.
         // Put these integers into an int array
